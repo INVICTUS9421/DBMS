@@ -1,0 +1,1604 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 2
+
+EXERCISE NAME   : Implementation of data definition language.
+
+****************************************************************
+______________
+
+Table : ORDER
+______________
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "ORDER" with order_id,
+
+date_of_order,total price,transaction_id,cus_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE ORDER(ORDER_ID VARCHAR2(20),DATE_OF_ORDER DATE,
+
+TOTAL_PRICE FLOAT(25),TRANSACTION_ID VARCHAR2(30),CUS_ID VARCHAR2(30),
+
+ PARTNER_ID VARCHAR2(25));
+
+Table created.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ ORDER_ID                                           VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to alter a table by adding a column,modifying
+
+data type,renaming a column,adding constraints,removing constraints.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use alter for Adding a column MOBILE_NO with a datatype of NUMBER(10).
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER ADD MOBILE_NO NUMBER(10);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ ORDER_ID                                           VARCHAR(30)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to modify the data type of order id from
+
+varchar2(20) to varchar(30).
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER MODIFY ORDER_ID VARCHAR(30);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ ORDER_ID                                           VARCHAR(30)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(C) Use ALTER command to rename a column from old name ORDER_ID
+
+to new name GOODS_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER RENAME COLUMN ORDER_ID TO GOODS_ID;
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ GOODS_ID                                           VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(D) Use ALTER command to set the attribute TRANSACTION_ID, PARTNER_ID,
+
+ CUST_ID as foriegn key.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER ADD CONSTRAINT PARTNER_ID_FK FOREIGN
+
+ KEY(PARTNER_ID) REFERENCES DELIVERY_PARTNER(PARTNER_ID);
+
+Table altered.
+
+SQL> ALTER TABLE ORDER ADD CONSTRAINT CUST_ID_FK FOREIGN
+
+KEY(CUS_ID) REFERENCES Customer(CUS_ID);
+
+Table altered.
+
+ALTER TABLE ORDER ADD CONSTRAINT TRANSACTION_ID_FK FOREIGN
+
+KEY(TRANSACTION_ID) REFERENCES PAYMENT(TRANSACTION_ID);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ GOODS_ID                                           VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(D) Use ALTER command to remove the column mobile_no.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER REMOVE MOBILE_NO NUMBER(10);
+
+Table altered.
+
+SQL> DESC ORDER
+
+Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ ORDER_ID                                           VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(E) Use ALTER command to add the primary key constraint of the
+
+ attribute GOODS_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE ORDER ADD CONSTRAINT ORDER_ID_PK PRIMARY KEY(GOODS_ID);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ ORDER_ID                                  NOT NULL VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             VARCHAR2(30)
+ PARTNER_ID                                         VARCHAR2(25)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+_________________________
+
+Table : Delivery partner
+_________________________
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table DELIVERY_PARTNER with partner_id,
+
+partner_name,mobile_no.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+SQL> CREATE TABLE DELIVERY_PARTNER(PARTNER_ID VARCHAR2(25),PARTNER_NAME
+
+ VARCHAR2(20), MOBILE_NO NUMBER(10));
+
+Table created.
+
+OUTPUT:
+
+SQL> DESC DELIVERY_PARTNER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ PARTNER_ID                                         VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to alter the table
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use ALTER command to set MOBILE_NO as UNIQUE.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE DELIVERY_PARTNER ADD CONSTRAINT MOBILE_NO_UNIQUE
+
+ UNIQUE(MOBILE_NO);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC DELIVERY_PARTNER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ PARTNER_ID                                         VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to add the primary key constraint to partner_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE DELIVERY_PARTNER ADD CONSTRAINT PARTNER_ID_PK
+
+ PRIMARY KEY(PARTNER_ID);
+
+Table altered.
+
+SQL> desc DELIVERY_PARTNER
+ Name                                      Null?    Type
+ ----------------------------------------- -------- -------------------
+ PARTNER_ID                                NOT NULL VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to remove the primary key constraint.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE DELIVERY_PARTNER DROP CONSTRAINT PARTNER_ID_PK;
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC DELIVERY_PARTNER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ PARTNER_ID                                         VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(C) Use ALTER command to add check constraint to the attribute MOBILE_NO.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE DELIVERY_PARTNER ADD CONSTRAINT MOBILE_CHECK_CONST
+
+ CHECK (MOBILE_NO not like '%[^0-9]%');
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC DELIVERY_PARTNER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ PARTNER_ID                                         VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3.Use Truncate command to delete all the rows of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4.Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+________________
+
+Table: PAYMENT
+________________
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use Create command to create a table PAYMENT with transaction_id,
+
+date_of_payment,amount.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE PAYMENT(TRANSACTION_ID VARCHAR2(30),DATE_OF_PAYMENT
+
+ DATE,AMOUNT FLOAT(20));
+
+Table created.
+
+OUTPUT:
+
+SQL> DESC PAYMENT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ TRANSACTION_ID                                     VARCHAR2(30)
+ DATE_OF_PAYMENT                                    DATE
+ AMOUNT                                             FLOAT(20)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to alter the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use ALTER command to set transaction_id as a primary key.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE PAYMENT ADD CONSTRAINT TRANSACTION_ID_PK
+
+ PRIMARY KEY(TRANSACTION_ID);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC PAYMENT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ TRANSACTION_ID                            NOT NULL VARCHAR2(30)
+ DATE_OF_PAYMENT                                    DATE
+ AMOUNT                                             FLOAT(20)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to remove primary key constraint.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE PAYMENT DROP CONSTRAINT TRANSACTION_ID_PK;
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC PAYMENT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ TRANSACTION_ID                                     VARCHAR2(30)
+ DATE_OF_PAYMENT                                    DATE
+ AMOUNT                                             FLOAT(20)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use TRUNCATE command to delete all the rows of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+
+-----------------
+Table : CUSTOMER
+-----------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "CUSTOMER" with
+
+CUS_NAME,CUS_ID,EMAIL,MOBILE_NO.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> create table Customer(Cus_Name VARCHAR2(30), Cus_Id Integer,
+
+ Email VARCHAR(30), Mobile_No INTEGER);
+
+Table created.
+
+SQL> DESC Customer
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                             NUMBER(38)
+ EMAIL                                              VARCHAR2(30)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to alter a table by adding a column,modifying
+
+data type,renaming a column,adding constraints, removing constraints.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use ALTER command to add the primary key constraint of the
+
+attribute CUS_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ SQL> alter table Customer add constraint Cus_Id_Pk primary key (Cus_Id);
+
+Table altered.
+SQL> DESC Customer
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                    NOT NULL NUMBER(38)
+ EMAIL                                              VARCHAR2(30)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to delete the column Email.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ SQL> ALTER TABLE CUSTOMER DROP (EMAIL);
+
+Table altered.
+
+SQL> DESC CUSTOMER
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                    NOT NULL NUMBER(38)
+ MOBILE_NO                                          NUMBER(10)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(C) Use ALTER command to add the column Email.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE CUSTOMER ADD EMAIL VARCHAR2(20);
+
+Table altered.
+
+SQL> DESC CUSTOMER
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                    NOT NULL NUMBER(38)
+ MOBILE_NO                                          NUMBER(10)
+ EMAIL                                              VARCHAR2(20)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(D) Use ALTER command to modify the data type of email from
+
+varchar2(20) to varchar2(50).
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ SQL> ALTER TABLE CUSTOMER MODIFY EMAIL VARCHAR2(50);
+
+Table altered.
+
+SQL> DESC CUSTOMER
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                    NOT NULL NUMBER(38)
+ MOBILE_NO                                          NUMBER(38)
+ EMAIL                                              VARCHAR2(50)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table TRUNCATE_SAMPLE.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table DROP_SAMPLE.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+----------------
+TABLE: HANDLE
+----------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "HANDLE" with CUS_id,EMP_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE HANDLE (CUS_ID NUMBER(38), EMP_ID NUMBER(38));
+
+Table created.
+
+SQL> DESC HANDLE;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ------------------
+ CUS_ID                                             NUMBER(38)
+ EMP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to add foreign key constraint to cus_id and Emp_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE HANDLE ADD FOREIGN KEY(CUS_ID)
+
+REFERENCES CUSTOMER(CUS_ID);
+
+Table altered.
+
+SQL> ALTER TABLE HANDLE ADD FOREIGN KEY(EMP_ID)
+
+REFERENCES EMPLOYEES(EMP_ID);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC HANDLE;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_ID                                             NUMBER(38)
+ EMP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table TRUNCATE_SAMPLE.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table DROP_SAMPLE.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+-----------
+TABLE: HAS
+-----------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "HAS" with ORDER_ID, PRODUCT_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE HAS(ORDER_ID VARCHAR2(20), PRODUCT_ID NUMBER(38));
+
+Table created.
+
+SQL> DESC HAS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ ORDER_ID                                           VARCHAR2(20)
+ PRODUCT_ID                                         NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to add foreign key constraint to order_id
+
+and product_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE HAS ADD FOREIGN KEY(ORDER_ID) REFERENCES ORDER(ORDER_ID);
+
+Table altered.
+
+SQL> ALTER TABLE HAS ADD FOREIGN KEY(PRODUCT_ID) REFERENCES
+
+ PRODUCT(PRODUCT_ID);
+
+Table altered.
+
+OUTPUT:
+
+SQL> DESC HAS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ ORDER_ID                                           VARCHAR2(20)
+ PRODUCT_ID                                         NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+-----------------------------
+
+TABLE: CUSTOMER_CUSS_ADDRESS
+
+-----------------------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "CUSTOMER_CUSS_ADDRESS"
+
+with CUS_ID, CUS_ADDRESS.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE CUSTOMER_CUSS_ADDRESS(CUS_ID NUMBER(38),
+
+ CUS_ADDRESS VARCHAR(150));
+
+Table created.
+
+SQL> DESC CUSTOMER_CUSS_ADDRESS;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_ID                                             NUMBER(38)
+ CUS_ADDRESS                                        VARCHAR2(150)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to add the foreign key constraint to the attribute
+
+cus_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE CUSTOMER_CUSS_ADDRESS ADD FOREIGN KEY(CUS_ID)
+
+REFERENCES CUSTOMER(CUS_ID);
+
+Table altered.
+
+SQL> DESC CUSTOMER_CUSS_ADDRESS;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_ID                                             NUMBER(38)
+ CUS_ADDRESS                                        VARCHAR2(150)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.1 Use ALTER command to add the primary key constraint to the
+
+attribute cus_address.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE CUSTOMER_CUSS_ADDRESS ADD CONSTRAINT CUS_ADDRESS_PK
+
+ PRIMARY KEY(CUS_ADDRESS);
+
+Table altered.
+
+SQL> DESC CUSTOMER_CUSS_ADDRESS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_ID                                             NUMBER(38)
+ CUS_ADDRESS                               NOT NULL VARCHAR2(150)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.2 Use ALTER command to add the DROP constraint.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE CUSTOMER_CUSS_ADDRESS DROP CONSTRAINT CUS_ADDRESS_PK;
+
+Table altered.
+
+SQL> desc CUSTOMER_CUSS_ADDRESS
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ CUS_ID                                             NUMBER(38)
+ CUS_ADDRESS                                        VARCHAR2(150)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+
+-----------------
+
+TABLE: SUPPLIER
+
+-----------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use CREATE command to create a table "SUPPLIER" with SUP_ID, SUP_NAME,
+
+ SUP_ADDRESS.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+SQL> CREATE TABLE SUPPLIER(SUP_ID NUMBER(38), SUP_NAME VARCHAR2(20),
+
+ SUP_ADDRESS VARCHAR2(40));
+
+Table created.
+
+SQL> DESC SUPPLIER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ SUP_ID                                             NUMBER(38)
+ SUP_NAME                                           VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(40)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to add the PRIMARY key constraint to the
+
+attribute sup_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE SUPPLIER ADD CONSTRAINT SUP_ID_PK PRIMARY KEY(SUP_ID);
+
+Table altered.
+
+SQL> DESC SUPPLIER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ SUP_ID                                    NOT NULL NUMBER(38)
+ SUP_NAME                                           VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(40)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.1 Use ALTER command to add the not null constraint to the attribute
+
+ sup_name.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE SUPPLIER MODIFY SUP_NAME VARCHAR2(20) NOT NULL;
+
+Table altered.
+
+SQL> DESC SUPPLIER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ SUP_ID                                    NOT NULL NUMBER(38)
+ SUP_NAME                                  NOT NULL VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(40)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.2 Use ALTER command to modify the data type of sup_address.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE SUPPLIER MODIFY SUP_ADDRESS VARCHAR2(50);
+
+Table altered.
+
+SQL> DESC SUPPLIER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ SUP_ID                                    NOT NULL NUMBER(38)
+ SUP_NAME                                  NOT NULL VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(50)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.3 Use ALTER command to drop the primary key constraint.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE SUPPLIER DROP CONSTRAINT SUP_ID_PK;
+
+Table altered.
+
+SQL> DESC SUPPLIER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ SUP_ID                                             NUMBER(38)
+ SUP_NAME                                  NOT NULL VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(50)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+-----------------------
+
+TABLE: EMPLOYEES
+
+-----------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Use create command to create table "EMPLOYEE" with EMP_ID, EMP_NAME,
+
+ EMP_MOBILEN0, SUP_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE EMPLOYEES(EMP_ID NUMBER(38), EMP_NAME VARCHAR2(20),
+
+ EMP_MOBILENO NUMBER(10), SUP_ID NUMBER(38));
+
+Table created.
+
+SQL> DESC EMPLOYEES
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ EMP_ID                                             NUMBER(38)
+ EMP_NAME                                           VARCHAR2(20)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Use ALTER command to add the PRIMARY key constraint to the
+
+attribute emp_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE EMPLOYEES ADD CONSTRAINT EMP_ID_PK PRIMARY KEY(EMP_ID);
+
+Table altered.
+
+SQL> DESC EMPLOYEES;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ EMP_ID                                    NOT NULL NUMBER(38)
+ EMP_NAME                                           VARCHAR2(20)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.1 Use ALTER command to add the not null constraint to the attribute
+
+ EMP_name.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE EMPLOYEES MODIFY EMP_NAME VARCHAR2(20) NOT NULL;
+
+Table altered.
+
+SQL> DESC EMPLOYEES;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ EMP_ID                                    NOT NULL NUMBER(38)
+ EMP_NAME                                  NOT NULL VARCHAR2(20)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.2 Use ALTER command to modify the data type of EMP_NAME.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE EMPLOYEES MODIFY EMP_NAME VARCHAR2(25);
+
+Table altered.
+
+SQL> DESC EMPLOYEES;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ EMP_ID                                    NOT NULL NUMBER(38)
+ EMP_NAME                                  NOT NULL VARCHAR2(25)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2.3 Use ALTER command to drop the primary key constraint.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE EMPLOYEES DROP CONSTRAINT EMP_ID_PK;
+
+Table altered.
+
+SQL> DESC EMPLOYEES
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ EMP_ID                                             NUMBER(38)
+ EMP_NAME                                  NOT NULL VARCHAR2(25)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+-----------------
+Table: INVENTORY
+-----------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  1. Use CREATE command to create a table "INVENTORY" with PRO_ID,
+
+ QUANTITY and sup_id and set sup_id as foreign key.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> CREATE TABLE INVENTORY(QUANTITY NUMBER(5),INVENTORY_ID
+
+VARCHAR2(6),SUPPLIER_ID NUMBER(38)
+
+ CONSTRAINT INV_SUP_ID_FK REFERENCES SUPPLIER(SUP_ID));
+
+Table created.
+
+SQL> DESC INVENTORY
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ QUANTITY                                           NUMBER(5)
+ INVENTORY_ID                                       VARCHAR2(6)
+ SUPPLIER_ID                                        NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ 2. Use ALTER command to alter a table by modifying data type,
+
+adding constraints.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use ALTER command to modify the data type of quantity from number(5)
+
+ to number(10).
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE INVENTORY MODIFY QUANTITY NUMBER(10);
+
+Table altered.
+
+SQL> DESC INVENTORY
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ QUANTITY                                           NUMBER(10)
+ INVENTORY_ID                                       VARCHAR2(6)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to add the primary key constraint of the
+
+ attribute INVENTORY_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE INVENTORY ADD CONSTRAINT INVENTORY_ID_PK
+
+PRIMARY KEY(INVENTORY_ID);
+
+Table altered.
+
+SQL> DESC INVENTORY
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ QUANTITY                                           NUMBER(5)
+ INVENTORY_ID                              NOT NULL VARCHAR2(6)
+ SUPPLIER_ID                                        NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(C) Use ALTER command to rename the column supplier_id to sup_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE INVENTORY RENAME COLUMN SUPPLIER_ID TO SUP_ID;
+
+Table altered.
+
+SQL> DESC INVENTORY
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ QUANTITY                                           VARCHAR2(6)
+ INVENTORY_ID                              NOT NULL VARCHAR2(6)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(D) Use ALTER command to add NOT NULL constraint to quantity.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE INVENTORY MODIFY QUANTITY VARCHAR2(6) NOT NULL;
+
+Table altered.
+
+SQL> DESC INVENTORY;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ QUANTITY                                  NOT NULL VARCHAR2(6)
+ INVENTORY_ID                              NOT NULL VARCHAR2(6)
+ SUP_ID                                             NUMBER(38)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+----------------
+Table: PRODUCT
+----------------
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  1. Use CREATE command to create a table "PRODUCT" with NAME, BRAND,
+
+COST, PRODUCT_ID, Inventory_id.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+CREATE TABLE PRODUCT(PROD_NAME VARCHAR2(20),BRAND VARCHAR2(15),
+
+COST NUMBER(6),PRODUCT_ID NUMBER(38),INVENTORY_ID VARCHAR2(6));
+
+Table created.
+
+SQL> DESC PRODUCT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(20)
+ COST                                               NUMBER(38)
+ PRODUCT_ID                                         NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  2. Use ALTER command to alter a table by adding a column,modifying data
+
+type,renaming a column,adding constraints, removing constraints.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(A) Use ALTER command to add the NOT NULL constraint of the attribute COST.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE PRODUCT MODIFY COST NUMBER(38) NOT NULL;
+
+Table altered.
+
+SQL> DESC PRODUCT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- -----------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(20)
+ COST                                      NOT NULL NUMBER(38)
+ PRODUCT_ID                                         NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(B) Use ALTER command to add the primary key constraint of the attribute
+
+ PRODUCT_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE PRODUCT ADD CONSTRAINT PRODUCT_ID_PK PRIMARY
+
+ KEY(PRODUCT_ID);
+
+Table altered.
+
+SQL> DESC PRODUCT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(20)
+ COST                                      NOT NULL NUMBER(38)
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(C) Use ALTER command to modify the data type of brand from
+
+ varchar2(20) to varchar2(45).
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE PRODUCT MODIFY BRAND VARCHAR2(45);
+
+Table altered.
+
+SQL> DESC PRODUCT;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ---------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(45)
+ COST                                      NOT NULL NUMBER(38)
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+(D) Use ALTER command to add foreign key constraint for Inventory_ID.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> ALTER TABLE INVENTORY ADD CONSTRAINT INVENTORY_ID_FK FOREIGN
+
+KEY(INVENTORY_ID) REFERENCES INVENTORY(INVENTORY_ID);
+
+Table altered.
+
+SQL> DESC PRODUCT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(45)
+ COST                                      NOT NULL NUMBER(38)
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Use truncate command to delete all rows from the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> TRUNCATE TABLE TRUNCATE_SAMPLE;
+
+Table truncated.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Use DROP command to delete the structure of the table.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SQL> DROP TABLE DROP_SAMPLE;
+
+Table dropped.
+
+SQL> DESC DROP_SAMPLE;
+ERROR:
+ORA-04043: object DROP_SAMPLE does not exist
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+USE DESC COMMAND TO DISPLAY ALL THE TABLES
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+SQL> DESC ORDER
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------
+ ORDER_ID                                  NOT NULL VARCHAR2(20)
+ DATE_OF_ORDER                                      DATE
+ TOTAL_PRICE                                        FLOAT(25)
+ TRANSACTION_ID                                     VARCHAR2(30)
+ CUS_ID                                             NUMBER(38)
+ PARTNER_ID                                         VARCHAR2(25)
+
+
+SQL> DESC DELIVERY_PARTNER;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ PARTNER_ID                                NOT NULL VARCHAR2(25)
+ PARTNER_NAME                                       VARCHAR2(20)
+ MOBILE_NO                                          NUMBER(10)
+
+
+SQL> DESC PAYMENT;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ TRANSACTION_ID                            NOT NULL VARCHAR2(30)
+ DATE_OF_PAYMENT                                    DATE
+ AMOUNT                                             FLOAT(20)
+
+
+SQL> DESC HANDLE;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ CUS_ID                                             NUMBER(38)
+ EMP_ID                                             NUMBER(38)
+
+
+SQL> DESC HAS;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ ORDER_ID                                           VARCHAR2(20)
+ PRODUCT_ID                                         NUMBER(38)
+
+
+SQL> DESC CUSTOMER_CUSS_ADDRESS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ CUS_ID                                             NUMBER(38)
+ CUS_ADDRESS                               NOT NULL VARCHAR2(150)
+
+
+SQL> DESC SUPPLIER
+
+Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ SUP_ID                                    NOT NULL NUMBER(38)
+ SUP_NAME                                  NOT NULL VARCHAR2(20)
+ SUP_ADDRESS                                        VARCHAR2(40)
+
+
+SQL> DESC EMPLOYEES;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ EMP_ID                                    NOT NULL NUMBER(38)
+ EMP_NAME                                  NOT NULL VARCHAR2(25)
+ EMP_MOBILENO                                       NUMBER(10)
+ SUP_ID                                             NUMBER(38)
+
+
+SQL> DESC Customer
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ CUS_NAME                                           VARCHAR2(30)
+ CUS_ID                                    NOT NULL NUMBER(38)
+ EMAIL                                              VARCHAR2(30)
+ MOBILE_NO                                          NUMBER(10)
+
+
+SQL> DESC INVENTORY;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ QUANTITY                                  NOT NULL NUMBER(10)
+ INVENTORY_ID                              NOT NULL VARCHAR2(6)
+ SUP_ID                                             NUMBER(38)
+
+
+SQL> DESC PRODUCT
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------------
+ PROD_NAME                                          VARCHAR2(20)
+ BRAND                                              VARCHAR2(45)
+ COST                                      NOT NULL NUMBER(38)
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ INVENTORY_ID                                       VARCHAR2(6o)
+
+***************************************************************************
