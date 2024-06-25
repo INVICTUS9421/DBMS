@@ -1,0 +1,374 @@
+**********************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 8
+
+EXERCISE NAME   : Implementation of Functions,Procedures & Cursors.
+
+**********************************************************************
+
+____________
+
+ PROCEDURE
+____________
+
+===================================================================================
+1.Write a query to procedure to insert values into INVENTORY table.
+
+SQL> CREATE OR REPLACE PROCEDURE INVINSERT
+  2  (QUANTITY IN NUMBER,INVENTORY_ID IN VARCHAR2,SUPPLIER_ID IN VARCHAR2)
+  3  IS
+  4  BEGIN
+  5  INSERT INTO INVENTORY VALUES(QUANTITY,INVENTORY_ID,SUPPLIER_ID);
+  6  END;
+  7  /
+
+Procedure created.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+87     MOU001 SUP678
+65     LAP004 SUP901
+113    LAP001 SUP345
+133    LAP002 SUP345
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+8 rows selected.
+
+===================================================================================
+2.Write a query to procedure to list products that are not
+listed in product table
+
+SQL>  CREATE OR REPLACE PROCEDURE NOPRODUCT
+  2    IS
+  3    CURSOR V1 IS SELECT * FROM INVENTORY;
+  4    TROW1 V1%ROWTYPE;
+  5    CURSOR V2 IS SELECT * FROM PRODUCT;
+  6    TROW2 V2%ROWTYPE;
+  7    BEGIN
+  8    OPEN V1;
+  9    OPEN V2;
+ 10    DBMS_OUTPUT.PUT_LINE('ID:');
+ 11    FETCH V1 INTO TROW1;
+ 12    FETCH V2 INTO TROW2;
+ 13    WHILE V1%FOUND LOOP
+ 14       IF TROW1.INVENTORY_ID!= TROW2.INVENTORY_ID THEN
+ 15               DBMS_OUTPUT.PUT_LINE(TROW1.INVENTORY_ID);
+ 16       END IF;
+ 17    FETCH V1 INTO TROW1;
+ 18    FETCH V2 INTO TROW2;
+ 19    END LOOP;
+ 20    CLOSE V1;
+ 21    CLOSE V2;
+ 22    END;
+ 23    /
+
+Procedure created.
+
+==================================================================================
+PROCEDURE CALLING METHOD
+==================================================================================
+
+SQL> BEGIN
+  2     NOPRODUCT;
+  3  END;
+  4  /
+ID:
+LAP003
+MOU001
+LAP004
+LAP001
+LAP002
+HEA002
+USB001
+
+PL/SQL procedure successfully completed.
+
+SQL>
+
+PL/SQL procedure successfully completed.
+
+================================================================================
+                        PROCEDURE CALLING USING EXEC COMMAND
+================================================================================
+
+SQL> EXEC INVINSERT(45,'WIR001','SUP678');
+
+PL/SQL procedure successfully completed.
+
+SQL> EXEC INVINSERT(900,'WIR002','SUP678');
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+87     MOU001 SUP678
+65     LAP004 SUP901
+113    LAP001 SUP345
+133    LAP002 SUP345
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+45     WIR001 SUP678
+900    WIR002 SUP678
+
+10 rows selected.
+
+================================================================================
+                        PROCEDURE CALLING USING CALL COMMAND
+================================================================================
+
+SQL> CALL INVINSERT(345,'WIR003','SUP678');
+
+Call completed.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+87     MOU001 SUP678
+65     LAP004 SUP901
+113    LAP001 SUP345
+133    LAP002 SUP345
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+45     WIR001 SUP678
+900    WIR002 SUP678
+345    WIR003 SUP678
+
+11 rows selected.
+
+===================================================================================
+3.Write a query to create a Procedure to delete products more than
+ the specified quantity.
+
+SQL> CREATE OR REPLACE PROCEDURE DELETE_MORE
+  2  (QUANTITY1 IN INVENTORY.QUANTITY%TYPE)
+  3  IS
+  4  BEGIN
+  5  DELETE FROM INVENTORY WHERE QUANTITY>=QUANTITY1;
+  6  END;
+  7  /
+
+Procedure created.
+
+===================================================================================
+PROCEDURE CALLING METHOD
+===================================================================================
+
+SQL> BEGIN
+  2  DELETE_MORE(950);
+  3  DBMS_OUTPUT.PUT_LINE('DELETED sucessfully!');
+  4  END;
+  5  /
+DELETED sucessfully!
+
+PL/SQL procedure successfully complete
+
+===================================================================================
+                                        FUNCTIONS
+===================================================================================
+1.Create an user defined function to display customer count.
+
+SQL> CREATE OR REPLACE FUNCTION TOTAL_CUSTOMERS
+  2  RETURN NUMBER IS
+  3     TOTAL NUMBER(3) :=0;
+  4  BEGIN
+  5     SELECT COUNT(*) INTO TOTAL FROM EMPLOYEE;
+  6     RETURN TOTAL;
+  7  END;
+  8  /
+
+Function created.
+
+===================================================================================
+                                FUNCTION CALLING INSIDE PROCEDURE
+===================================================================================
+
+SQL> DECLARE
+  2     C NUMBER(3);
+  3  BEGIN
+  4     C:=TOTAL_CUSTOMERS();
+  5     DBMS_OUTPUT.PUT_LINE('TOTAL CUSTOMERS:'|| C);
+  6  END;
+  7  /
+TOTAL CUSTOMERS:5
+
+PL/SQL procedure successfully completed.
+===================================================================================
+2.Create an user defined function to display supplier count.
+
+SQL> CREATE OR REPLACE FUNCTION TOTAL_SUPPLIER
+  2  RETURN NUMBER IS
+  3  TOTAL NUMBER(3) :=0;
+  4  BEGIN
+  5  SELECT COUNT(*) INTO TOTAL FROM EMPLOYEE;
+  6  RETURN TOTAL;
+  7  END;
+  8  /
+
+Function created.
+===================================================================================
+FUNCTION CALLING INSIDE PROCEDURE
+===================================================================================
+
+PL/SQL procedure successfully completed.
+
+SQL> SET SERVEROUTPUT ON;
+
+SQL> DECLARE
+  2  C NUMBER(3);
+  3  BEGIN
+  4  C := TOTAL_SUPPLIER();
+  5  DBMS_OUTPUT.PUT_LINE('TOTAL EMPLOYEES :'|| C);
+  6  END;
+  7  /
+TOTAL EMPLOYEES :5
+
+PL/SQL procedure successfully completed.
+===================================================================================
+FUNCTION CALLING USING DUAL TABLE
+===================================================================================
+SQL> SELECT TOTAL_SUPPLIER() AS COUNT FROM DUAL;
+
+     COUNT
+----------
+         5
+===================================================================================
+FUNCTION CALLING USING ORIGINAL TABLE
+===================================================================================
+
+SQL> SELECT SUP_NAME,SUP_ID,TOTAL_SUPPLIER() AS COUNT FROM SUPPLIER;
+
+SUP_NAME             SUP_ID      COUNT
+-------------------- ------ ----------
+RYAN                 SUP345          5
+RAJ                  SUP678          5
+LOKESH               SUP901          5
+KUMAR                SUP012          5
+===================================================================================
+                                CURSORS - EXPLICIT
+===================================================================================
+1.Write a query to CREATE a cursor to display name,mobileno,id of customer.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  CURSOR C1 IS SELECT * FROM CUSTOMER;
+  3  TROW C1%ROWTYPE;
+  4  BEGIN
+  5  OPEN C1;
+  6  LOOP
+  7  FETCH C1 INTO TROW;
+  8  EXIT WHEN(C1%NOTFOUND);
+  9  DBMS_OUTPUT.PUT_LINE('NAME:'||TROW.CUS_NAME||'MOBILE NO:'
+        ||TROW.MOBILE_NO||'ID:'||TROW.CUS_ID);
+ 10  END LOOP;
+ 11  CLOSE C1;
+ 12  END;
+ 13  /
+NAME:KRISHNAMOBILE NO:9736438462ID:CUS001
+NAME:SANTHOSHMOBILE NO:8564738473ID:CUS002
+NAME:AKASHMOBILE NO:7874563498ID:CUS003
+NAME:JOHN WICKMOBILE NO:8725626798ID:CUS005
+NAME:NATHANMOBILE NO:2345626798ID:CUS006
+NAME:MARSHALL MATHERSMOBILE NO:8745626798ID:CUS007
+NAME:ANMOBILE NO:6585748395ID:CUS123
+NAME:VISHALMOBILE NO:7458375638ID:CUS008
+
+PL/SQL procedure successfully completed.
+===================================================================================
+2.Write a query to CREATE a cursor to display name,brand,cost of product
+when product_id is given.
+
+SQL> DECLARE
+  2  CURSOR C1(ID PRODUCT.PRODUCT_ID%TYPE) IS SELECT *
+        FROM PRODUCT WHERE ID=PRODUCT_ID;
+  3  T C1%ROWTYPE;
+  4  BEGIN
+  5  OPEN C1(&ID);
+  6  LOOP
+  7  FETCH C1 INTO T;
+  8  EXIT WHEN(C1%NOTFOUND);
+  9  DBMS_OUTPUT.PUT_LINE('PRODUCT NAME:'||T.PROD_NAME||'BRAND:'
+        ||T.BRAND||'COST:'||T.COST);
+ 10  END LOOP;
+ 11  CLOSE C1;
+ 12  END;
+ 13  /
+Enter value for id: 'PRO002'
+old   5: OPEN C1(&ID);
+new   5: OPEN C1('PRO002');
+PRODUCT NAME:ALIENWARE BRAND:DELL COST:131112
+
+PL/SQL procedure successfully completed.
+===================================================================================
+                                CURSORS - IMPLICIT
+===================================================================================
+1.Write a query to CREATE a Cursor to increment cost of all products by 50.
+
+SQL> DECLARE
+  2     total_rows number(3);
+  3  BEGIN
+  4     UPDATE PRODUCT
+  5     SET COST = COST + 50;
+  6     IF sql%notfound THEN
+  7        dbms_output.put_line('NO PRODUCT SELECTED');
+  8     ELSIF sql%found THEN
+  9        total_rows := sql%rowcount;
+ 10        dbms_output.put_line( total_rows || ' PRODUCTS SELECTED ');
+ 11     END IF;
+ 12  END;
+ 13  /
+
+HIGHER THAN OLDER COST
+OLD COST:5787
+NEW COST:5903
+HIGHER THAN OLDER COST
+OLD COST:133734
+NEW COST:136409
+HIGHER THAN OLDER COST
+OLD COST:7170
+NEW COST:7313
+HIGHER THAN OLDER COST
+OLD COST:8535
+NEW COST:8706
+4 PRODUCTS SELECTED
+===================================================================================
+                                        EXCEPTION
+===================================================================================
+2.Write a query to CREATE a Cursor that throws an exception error when not found.
+
+SQL> DECLARE
+  2    s_id supplier.sup_id%type := 'sup444';
+  3     s_name  supplier.sup_name%type;
+  4  BEGIN
+  5     SELECT  sup_name INTO  s_name
+  6     FROM supplier
+  7     WHERE sup_id = s_id;
+  8  DBMS_OUTPUT.PUT_LINE ('Name: '||  s_name);
+  9  EXCEPTION
+ 10     WHEN no_data_found THEN
+ 11        dbms_output.put_line('No such Supplier!');
+ 12     WHEN others THEN
+ 13        dbms_output.put_line('Error!');
+ 14  END;
+ 15  /
+
+No such Supplier!
+
+PL/SQL procedure successfully completed.
+
+===================================================================================
