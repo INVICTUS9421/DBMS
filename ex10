@@ -1,0 +1,366 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 10
+
+EXERCISE NAME   : Implementation of MONGO-DB.
+
+****************************************************************
+
+____________
+
+  MONGO-DB
+____________
+
+----------------------------------------------------------------
+
+1.Write a query to switch to current database.
+
+use shop;
+
+ mycompiler_mongodb> switched to db shop
+shop>
+----------------------------------------------------------------
+2.Write a query to create a collection product.
+
+db.createCollection("product");
+
+ mycompiler_mongodb> switched to db shop
+shop> { ok: 1 }
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+3.Write a query to show.
+show dbs
+
+shop> { ok: 1 }
+shop> admin       59 B
+config       0 B
+local   2.45 KiB
+shop         0 B
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+4.Write a query to insert one record.
+
+db.product.insertOne({
+    product_id:'pro001',
+    product_name:'RTX 4090',
+    cost:32000,brand:'NVIDIA'
+});
+
+shop> ... ... ... ... ... {
+  acknowledged: true,
+  insertedId: ObjectId("645b877dd5b98eed1137f221")
+}
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+5.Write a query to insert multiple record.
+
+db.product.insertMany([
+    {
+        product_id:'pro002',
+        product_name:'RTX 3090',
+        cost:21000,
+        brand:'NVIDIA'
+    },
+    {
+        product_id:'pro003',
+        product_name:'RTX 3090',
+        cost:24000,
+        brand:'NVIDIA'
+    },
+    {
+        product_id:'pro004',
+        product_name:'RTX 3090Ti',
+        cost:29000,
+        brand:'NVIDIA'
+    }]);
+
+shop> ... ... ... ... ... ... ... ... ... ... ... ... ... {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("645b87d2e99d6d2eb6f7263f"),
+    '1': ObjectId("645b87d2e99d6d2eb6f72640"),
+    '2': ObjectId("645b87d2e99d6d2eb6f72641")
+  }
+}
+shop>
+
+[Execution complete with exit code 0]
+
+----------------------------------------------------------------
+6.Display all the inserted records
+
+db.product.find();
+
+shop> [
+  {
+    _id: ObjectId("645b881b08f6e8ac286e8f31"),
+    product_id: 'pro001',
+    product_name: 'RTX 4090',
+    cost: 32000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b881c08f6e8ac286e8f32"),
+    product_id: 'pro002',
+    product_name: 'RTX 3090',
+    cost: 21000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b881c08f6e8ac286e8f33"),
+    product_id: 'pro003',
+    product_name: 'RTX 3090',
+    cost: 24000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b881c08f6e8ac286e8f34"),
+    product_id: 'pro004',
+    product_name: 'RTX 3090Ti',
+    cost: 29000,
+    brand: 'NVIDIA'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+7.Display first record in the product collection.
+
+db.product.findOne();
+
+shop> {
+  _id: ObjectId("645b88ccb42e1b5c56ea2b64"),
+  product_id: 'pro001',
+  product_name: 'RTX 4090',
+  cost: 32000,
+  brand: 'NVIDIA'
+}
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+8.Display record whose product_id is 'pro003'.
+
+db.product.find({product_name:'RTX 3090'})
+
+  {
+    _id: ObjectId("645b894bde30c8676262f198"),
+    product_id: 'pro003',
+    product_name: 'RTX 3090',
+    cost: 24000,
+    brand: 'NVIDIA'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+9.Write a query to find product named product_id:'pro003'.
+db.product.find(
+    {},
+    {
+        product_id:'pro003',
+        product_name:'Radeon RX7900 XTX'
+    })
+
+
+  {
+    _id: ObjectId("645b8a5f8ca6d8a16fa3e77d"),
+    product_id: 'pro003',
+    product_name: 'Radeon RX7900 XTX'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+
+----------------------------------------------------------------
+10.Write a query to update the cost of 'Radeon RX7900 XTX' to 35000.
+
+db.product.findOne({brand:'AMD'});
+shop> {
+  _id: ObjectId("645b8ac5fa221599ef059bd7"),
+  product_id: 'pro003',
+  product_name: 'Radeon RX7900 XTX',
+  cost: 24000,
+  brand: 'AMD'
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+db.product.updateOne({brand:'AMD'},{$set:{cost:35000}});
+
+shop> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+db.product.findOne({brand:'AMD'});
+
+shop> {
+  _id: ObjectId("645b8b9c7bc6bb1e1651a305"),
+  product_id: 'pro003',
+  product_name: 'Radeon RX7900 XTX',
+  cost: 35000,
+  brand: 'AMD'
+}
+shop>
+----------------------------------------------------------------
+11.Write a query to update product_id 'pro004'.
+
+db.product.updateOne(
+  {product_id:'pro004'},
+  {
+    $set:
+      {
+        product_id:'pro004',
+        product_name:'GTX 480',
+        brand:'NVIDIA',
+        cost:4000
+      }
+  },
+  { upsert: true }
+)
+
+shop> ... ... ... ... ... ... ... ... ... ... ... ... {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+12.Write a query to increment all product cost by 5000.
+
+db.product.updateMany({}, { $inc: { cost:5000 } })
+db.product.find()
+
+shop> [
+  {
+    _id: ObjectId("645b8f1bf77af5c79100c231"),
+    product_id: 'pro001',
+    product_name: 'RTX 4090',
+    cost: 37000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b8f1cf77af5c79100c232"),
+    product_id: 'pro002',
+    product_name: 'RTX 3090',
+    cost: 40000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b8f1cf77af5c79100c233"),
+    product_id: 'pro003',
+    product_name: 'Radeon RX7900 XTX',
+    cost: 40000,
+    brand: 'AMD'
+  },
+  {
+    _id: ObjectId("645b8f1cf77af5c79100c234"),
+    product_id: 'pro004',
+    product_name: 'GTX 480',
+    cost: 9000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b8f1cf77af5c79100c235"),
+    product_id: 'pro005',
+    product_name: 'GeForce RTX 4080',
+    cost: 34000,
+    brand: 'NVIDIA'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+13.Write a query to delete product named 'GTX 480'.
+
+db.product.deleteOne({ product_name: 'GTX 480' })
+db.product.find()
+
+shop> { acknowledged: true, deletedCount: 1 }
+shop> [
+  {
+    _id: ObjectId("645b9151ace12fba5dd3be6c"),
+    product_id: 'pro001',
+    product_name: 'RTX 4090',
+    cost: 37000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b9152ace12fba5dd3be6d"),
+    product_id: 'pro002',
+    product_name: 'RTX 3090',
+    cost: 40000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b9152ace12fba5dd3be6e"),
+    product_id: 'pro003',
+    product_name: 'Radeon RX7900 XTX',
+    cost: 40000,
+    brand: 'AMD'
+  },
+  {
+    _id: ObjectId("645b9152ace12fba5dd3be70"),
+    product_id: 'pro005',
+    product_name: 'GeForce RTX 4080',
+    cost: 34000,
+    brand: 'NVIDIA'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
+14. Write a query to delete all products with brand name 'AMD'.
+
+db.product.deleteMany({brand:"AMD"})
+db.product.find()
+
+shop> { acknowledged: true, deletedCount: 1 }
+shop> [
+  {
+    _id: ObjectId("645b9295c3bc0b535128c4e3"),
+    product_id: 'pro001',
+    product_name: 'RTX 4090',
+    cost: 37000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b9295c3bc0b535128c4e4"),
+    product_id: 'pro002',
+    product_name: 'RTX 3090',
+    cost: 40000,
+    brand: 'NVIDIA'
+  },
+  {
+    _id: ObjectId("645b9295c3bc0b535128c4e7"),
+    product_id: 'pro005',
+    product_name: 'GeForce RTX 4080',
+    cost: 34000,
+    brand: 'NVIDIA'
+  }
+]
+shop>
+
+[Execution complete with exit code 0]
+----------------------------------------------------------------
