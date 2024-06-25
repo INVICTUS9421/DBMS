@@ -1,0 +1,557 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 6
+
+EXERCISE NAME   : Implementation of views and indexes.
+
+****************************************************************
+
+____________
+
+   VIEWS
+____________
+
+1.Write a query to create a view for customer table which includes
+columns customer name,ID.
+
+SQL> CREATE VIEW CUSVIEW AS SELECT CUS_NAME,CUS_ID FROM CUSTOMER;
+
+View created.
+
+SQL> SELECT * FROM CUSVIEW;
+
+CUS_NAME                       CUS_ID
+------------------------------ ------
+KRISHNA                        CUS001
+SANTHOSH                       CUS002
+AKASH                          CUS003
+JOHN WICK                      CUS005
+NATHAN                         CUS006
+MARSHALL MATHERS               CUS007
+
+6 rows selected.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2.Write a query to insert values into cusview.
+
+SQL> INSERT INTO CUSVIEW VALUES('NONAME','CUS111');
+
+1 row created.
+
+SQL> INSERT INTO CUSVIEW VALUES('ANONYMOUS','CUS222');
+
+1 row created.
+
+SQL> SELECT * FROM CUSVIEW;
+
+CUS_NAME                       CUS_ID
+------------------------------ ------
+NONAME                         CUS111
+ANONYMOUS                      CUS222
+KRISHNA                        CUS001
+SANTHOSH                       CUS002
+AKASH                          CUS003
+JOHN WICK                      CUS005
+NATHAN                         CUS006
+MARSHALL MATHERS               CUS007
+
+8 rows selected.
+
+INSERTION IN VIEW IS REFLECTED IN ORIGINAL TABLE.
+-------------------------------------------------
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                  MOBILE_NO EMAIL                        CUS_ID
+------------------------- ---------- --------------------------- ------
+NONAME                                                            CUS111
+ANONYMOUS                                                         CUS222
+KRISHNA                   9736438462 KRISHNA@GMAIL.COM            CUS001
+SANTHOSH                  8564738473 SS@GMAIL.COM                 CUS002
+AKASH                     7874563498 AKASH@GMAIL.COM              CUS003
+JOHN WICK                 8725626798 WICK@GMAIL.COM               CUS005
+NATHAN                    2345626798 NF@YAHOO.COM                 CUS006
+MARSHALL MATHERS          8745626798 EMINEM@REDIFF.COM            CUS007
+
+8 rows selected.
+
+-------------------------------------------------
+CANNOT INSERT INTO VIEW WITHOUT PRIMARY KEY.
+-------------------------------------------------
+
+SQL> INSERT INTO CUSVIEW VALUES('STRANGER',NULL);
+INSERT INTO CUSVIEW VALUES('STRANGER',NULL)
+                                      *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("C##21BCS056"."CUSTOMER"."CUS_ID")
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+3. Write a query to update the values of customer to set name as 'MICHAEL'
+where CUS_ID = 'CUS222'
+
+SQL> UPDATE CUSVIEW SET CUS_NAME = 'MICHAEL' WHERE CUS_ID = 'CUS222';
+
+1 row updated.
+
+SQL> SELECT * FROM CUSVIEW;
+
+CUS_NAME                       CUS_ID
+------------------------------ ------
+NONAME                         CUS111
+MICHAEL                        CUS222
+KRISHNA                        CUS001
+SANTHOSH                       CUS002
+AKASH                          CUS003
+JOHN WICK                      CUS005
+NATHAN                         CUS006
+MARSHALL MATHERS               CUS007
+
+8 rows selected.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+4. Write a query to delete the row from cusview
+where customer id is CUS111.
+
+SQL> DELETE FROM CUSVIEW WHERE CUS_ID = 'CUS111';
+
+1 row deleted.
+
+SQL> SELECT * FROM CUSVIEW;
+
+CUS_NAME                       CUS_ID
+------------------------------ ------
+MICHAEL                        CUS222
+KRISHNA                        CUS001
+SANTHOSH                       CUS002
+AKASH                          CUS003
+JOHN WICK                      CUS005
+NATHAN                         CUS006
+MARSHALL MATHERS               CUS007
+
+7 rows selected.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+5. Write a query to create view for the table INVENTORY.
+
+SQL> CREATE VIEW INVVIEW AS SELECT INVENTORY_ID,SUPPLIER_ID FROM INVENTORY;
+
+View created.
+
+SQL> SELECT * FROM INVVIEW;
+
+INVENT SUPPLI
+------ ------
+LAP003 SUP901
+MOU001 SUP678
+LAP001 SUP345
+LAP002 SUP345
+HEA001 SUP678
+HEA002 SUP012
+USB002 SUP678
+USB001 SUP901
+
+8 rows selected.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+6. Write a query to insert values into INVVIEW.
+
+SQL> INSERT INTO INVVIEW VALUES('LAP004','SUP678');
+
+1 row created.
+
+SQL> INSERT INTO INVVIEW VALUES('MOU002','SUP901');
+
+1 row created.
+
+SQL> SELECT * FROM INVVIEW;
+
+INVENT SUPPLI
+------ ------
+LAP003 SUP901
+MOU001 SUP678
+LAP004 SUP678
+MOU002 SUP901
+LAP001 SUP345
+LAP002 SUP345
+HEA001 SUP678
+HEA002 SUP012
+USB002 SUP678
+USB001 SUP901
+
+10 rows selected.
+
+INSERTION IN VIEW IS REFLECTED IN ORIGINAL TABLE.
+-------------------------------------------------
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+87     MOU001 SUP678
+       LAP004 SUP678
+       MOU002 SUP901
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+10 rows selected.
+-------------------------------------------------
+CANNOT INSERT INTO VIEW WITHOUT PRIMARY KEY.
+-------------------------------------------------
+
+SQL> INSERT INTO INVVIEW VALUES(NULL,'SUP901');
+INSERT INTO INVVIEW VALUES(NULL,'SUP901')
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("C##21BCS056"."INVENTORY"."INVENTORY_ID")
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+7. Write a query to update the values of INVENTORY to set SUPPLIER_ID as
+SUP901 where INVENTORY_ID is LAP004
+
+SQL> UPDATE INVVIEW SET SUPPLIER_ID = 'SUP901' WHERE INVENTORY_ID = 'LAP004';
+
+1 row updated.
+
+SQL> SELECT * FROM INVVIEW;
+
+INVENT SUPPLI
+------ ------
+LAP003 SUP901
+MOU001 SUP678
+LAP004 SUP901
+MOU002 SUP901
+LAP001 SUP345
+LAP002 SUP345
+HEA001 SUP678
+HEA002 SUP012
+USB002 SUP678
+USB001 SUP901
+
+10 rows selected.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+8. Write a query to delete the values from INVVIEW view where
+INVENTORY_ID is LAP004 & MOU002.
+
+SQL> DELETE FROM INVVIEW WHERE INVENTORY_ID = 'LAP004';
+
+1 row deleted.
+
+SQL> DELETE FROM INVVIEW WHERE INVENTORY_ID = 'MOU002';
+
+1 row deleted.
+
+SQL> SELECT * FROM INVVIEW;
+
+INVENT SUPPLI
+------ ------
+LAP003 SUP901
+MOU001 SUP678
+LAP001 SUP345
+LAP002 SUP345
+HEA001 SUP678
+HEA002 SUP012
+USB002 SUP678
+USB001 SUP901
+
+8 rows selected.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+9. Write a query to create view for Product table.
+
+SQL> CREATE VIEW PROVIEW AS SELECT INVENTORY_ID,PRODUCT_ID,COST FROM PRODUCT;
+
+View created.
+
+SQL> SELECT * FROM PROVIEW;
+
+INVENT PRODUC       COST
+------ ------ ----------
+LAP001 PRO001      65000
+LAP002 PRO002      90000
+HEA001 PRO003       3900
+USB001 PRO005       6000
+USB002 PRO006       7000
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+10. Write a query to insert values into PROVIEW.
+
+SQL> INSERT INTO PROVIEW VALUES('LAP004','PRO111',90000);
+
+1 row created.
+
+SQL> SELECT * FROM PROVIEW;
+
+INVENT PRODUC       COST
+------ ------ ----------
+LAP004 PRO111      90000
+LAP001 PRO001      65000
+LAP002 PRO002      90000
+HEA001 PRO003       3900
+USB001 PRO005       6000
+USB002 PRO006       7000
+
+6 rows selected.
+
+INSERTION IN VIEW IS REFLECTED IN ORIGINAL TABLE.
+-------------------------------------------------
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO111                      90000                 LAP004
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6 rows selected.
+
+-------------------------------------------------
+CANNOT INSERT INTO VIEW WITHOUT PRIMARY KEY.
+-------------------------------------------------
+
+SQL> INSERT INTO PROVIEW VALUES('MOU002',NULL,7000);
+INSERT INTO PROVIEW VALUES('MOU002',NULL,7000)
+                                    *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("C##21BCS056"."PRODUCT"."PRODUCT_ID")
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+11. Write a query to update cost to 80000 where INVENTORY_ID is LAP004
+
+SQL> UPDATE PROVIEW SET COST = 80000 WHERE INVENTORY_ID = 'LAP004';
+
+1 row updated.
+
+SQL> SELECT * FROM PROVIEW;
+
+INVENT PRODUC       COST
+------ ------ ----------
+LAP004 PRO111      80000
+LAP001 PRO001      65000
+LAP002 PRO002      90000
+HEA001 PRO003       3900
+USB001 PRO005       6000
+USB002 PRO006       7000
+
+6 rows selected.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+12. Write a query to delete row where  PRODUCT_ID is PRO111
+
+SQL> DELETE FROM PROVIEW WHERE PRODUCT_ID = 'PRO111';
+
+1 row deleted.
+
+SQL> SELECT * FROM PROVIEW;
+
+INVENT PRODUC       COST
+------ ------ ----------
+LAP001 PRO001      65000
+LAP002 PRO002      90000
+HEA001 PRO003       3900
+USB001 PRO005       6000
+USB002 PRO006       7000
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+13. Write a query to create views using two tables
+
+SQL> CREATE VIEW OVERVIEW AS SELECT P.PROD_NAME,P.PRODUCT_ID,P.COST,P.INVENTORY_ID
+FROM PRODUCT P INNER JOIN INVENTORY I ON P.INVENTORY_ID = I.INVENTORY_ID;
+
+View created.
+
+SQL> SELECT * FROM OVERVIEW;
+
+PROD_NAME       PRODUC       COST INVENT
+--------------- ------ ---------- ------
+INSPIRON        PRO001      65000 LAP001
+ALIENWARE       PRO002      90000 LAP002
+BASS HEADS      PRO003       3900 HEA001
+USB3.0          PRO005       6000 USB001
+TASK ALFA       PRO006       7000 USB002
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+14.Write a query to insert values into OVERVIEW.
+
+SQL> INSERT INTO OVERVIEW VALUES('NEWPRODUCT','PRO111',7000,'LAP003');
+
+1 row created.
+
+SQL> SELECT * FROM OVERVIEW;
+
+PROD_NAME       PRODUC       COST INVENT
+--------------- ------ ---------- ------
+NEWPRODUCT      PRO111       7000 LAP003
+INSPIRON        PRO001      65000 LAP001
+ALIENWARE       PRO002      90000 LAP002
+BASS HEADS      PRO003       3900 HEA001
+USB3.0          PRO005       6000 USB001
+TASK ALFA       PRO006       7000 USB002
+
+6 rows selected.
+
+-------------------------------------------------
+CANNOT INSERT INTO VIEW WITHOUT PRIMARY KEY.
+-------------------------------------------------
+
+SQL> INSERT INTO OVERVIEW VALUES('NEWPRODUCT',NULL,80000,'LAP004');
+INSERT INTO OVERVIEW VALUES('NEWPRODUCT',NULL,80000,'LAP004')
+                                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("C##21BCS056"."PRODUCT"."PRODUCT_ID")
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+15.Write a query to update cost to 75000 where product id is PRO111
+
+SQL> UPDATE OVERVIEW SET COST = 75000 WHERE PRODUCT_ID = 'PRO111';
+
+1 row updated.
+
+SQL> SELECT * FROM OVERVIEW;
+
+PROD_NAME       PRODUC       COST INVENT
+--------------- ------ ---------- ------
+NEWPRODUCT      PRO111      75000 LAP003
+INSPIRON        PRO001      65000 LAP001
+ALIENWARE       PRO002      90000 LAP002
+BASS HEADS      PRO003       3900 HEA001
+USB3.0          PRO005       6000 USB001
+TASK ALFA       PRO006       7000 USB002
+
+6 rows selected.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+16.Write a query to delete row where product id is PRO111
+
+SQL> DELETE FROM OVERVIEW WHERE PRODUCT_ID = 'PRO111';
+
+1 row deleted.
+
+SQL> SELECT * FROM OVERVIEW;
+
+PROD_NAME       PRODUC       COST INVENT
+--------------- ------ ---------- ------
+INSPIRON        PRO001      65000 LAP001
+ALIENWARE       PRO002      90000 LAP002
+BASS HEADS      PRO003       3900 HEA001
+USB3.0          PRO005       6000 USB001
+TASK ALFA       PRO006       7000 USB002
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+17.Write a query to create a view using 3 tables.
+
+SQL> CREATE VIEW NEWVIEW AS SELECT PROD_NAME,BRAND,COST,PRODUCT_ID,P.INVENTORY_ID,
+I.QUANTITY,S.SUP_ID,S.SUP_NAME FROM PRODUCT P INNER JOIN INVENTORY I ON
+P.INVENTORY_ID = I.INVENTORY_ID INNER JOIN SUPPLIER S ON I.SUPPLIER_ID = S.SUP_ID;
+
+View created.
+
+SQL> SELECT * FROM NEWVIEW;
+
+PROD_NAME       BRAND                 COST PRODUC INVENT QUANTI SUP_ID SUP_NAME
+--------------- --------------- ---------- ------ ------ ------ ------ --------------------
+INSPIRON        DELL                 65000 PRO001 LAP001 113    SUP345 RYAN
+ALIENWARE       DELL                 90000 PRO002 LAP002 133    SUP345 RYAN
+BASS HEADS      BOAT                  3900 PRO003 HEA001 244    SUP678 RAJ
+USB3.0          SANDISK               6000 PRO005 USB001 108    SUP901 LOKESH
+TASK ALFA       INVINCI               7000 PRO006 USB002 65     SUP678 RAJ
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+18.Write a query to UPDATE  NEWVIEW.
+
+SQL> UPDATE NEWVIEW SET COST = COST-100 WHERE PRODUCT_ID = 'PRO001';
+
+1 row updated.
+
+SQL> SELECT * FROM NEWVIEW;
+
+PROD_NAME       BRAND                 COST PRODUC INVENT QUANTI SUP_ID SUP_NAME
+--------------- --------------- ---------- ------ ------ ------ ------ --------------------
+INSPIRON        DELL                 64900 PRO001 LAP001 113    SUP345 RYAN
+ALIENWARE       DELL                 90000 PRO002 LAP002 133    SUP345 RYAN
+BASS HEADS      BOAT                  3900 PRO003 HEA001 244    SUP678 RAJ
+USB3.0          SANDISK               6000 PRO005 USB001 108    SUP901 LOKESH
+TASK ALFA       INVINCI               7000 PRO006 USB002 65     SUP678 RAJ
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+19.Write a query to delete a record in NEWVIEW.
+
+SQL> DELETE FROM NEWVIEW  WHERE PRODUCT_ID = 'PRO001';
+
+1 row deleted.
+
+SQL> SELECT * FROM NEWVIEW;
+
+PROD_NAME       BRAND                 COST PRODUC INVENT QUANTI SUP_ID SUP_NAME
+--------------- --------------- ---------- ------ ------ ------ ------ --------------------
+ALIENWARE       DELL                 90000 PRO002 LAP002 133    SUP345 RYAN
+BASS HEADS      BOAT                  3900 PRO003 HEA001 244    SUP678 RAJ
+USB3.0          SANDISK               6000 PRO005 USB001 108    SUP901 LOKESH
+TASK ALFA       INVINCI               7000 PRO006 USB002 65     SUP678 RAJ
+
+-----------------------
+EFFECT ON MAIN TABLE
+-----------------------
+
+SQL> SELECT * FROM PRODUCT P INNER JOIN INVENTORY I ON P.INVENTORY_ID = I.INVENTORY_ID INNER
+JOIN SUPPLIER S ON I.SUPPLIER_ID = S.SUP_ID;
+
+PRODUC BRAND    COST  PROD_NAME  INVENT QUANTI INVENT SUPPLI SUP_NAME SUP_ID ADDRESS
+------ ------- ----- ------------ ------ ----- ------ ------ -------- ------ ------------------------
+PRO002 DELL     90000 ALIENWARE   LAP002 133   LAP002 SUP345 RYAN     SUP345 New York City, New York
+PRO003 BOAT     3900  BASS HEADS  HEA001 244   HEA001 SUP678 RAJ      SUP678 BONFIELD LANE KOLKATA
+PRO005 SANDISK  6000  USB3.0      USB001 108   USB001 SUP901 LOKESH   SUP901 NORTHLANE-8,Haryana
+PRO006 INVINCI  7000  TASK ALFA   USB002 65    USB002 SUP678 RAJ      SUP678 BONFIELD LANE KOLKATA
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+--------------
+
+   INDEXES
+
+--------------
+
+------------------------------------------------------------------------------
+1. Write a query to create a view for product table using product
+name & cost
+
+SQL> CREATE INDEX PRO_INDEX ON PRODUCT(PROD_NAME,COST);
+
+Index created.
+------------------------------------------------------------------------------
+2.Write a query to create a view for customer table using customer name.
+
+SQL> CREATE INDEX CUS_INDEX ON CUSTOMER(CUS_NAME);
+
+Index created.
+------------------------------------------------------------------------------
+3.Write a query to alter name of index to CUSTOMER_INDEX.
+
+SQL> ALTER INDEX CUS_INDEX RENAME TO CUSTOMER_INDEX;
+
+Index altered.
+------------------------------------------------------------------------------
+4.Write a query to alter name of index to PRODUCT_INDEX.
+
+SQL> ALTER INDEX PRO_INDEX RENAME TO PRODUCT_INDEX;
+
+Index altered.
+------------------------------------------------------------------------------
+5.Write a query to DROP PRODUCT_INDEX.
+
+SQL> DROP INDEX PRODUCT_INDEX;
+
+Index dropped.
+------------------------------------------------------------------------------
+6.Write a query to DROP CUSTOMER_INDEX.
+
+SQL> DROP INDEX CUSTOMER_INDEX;
+
+Index dropped.
+------------------------------------------------------------------------------
