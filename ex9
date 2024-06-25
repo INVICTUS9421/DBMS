@@ -1,0 +1,254 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 9
+
+EXERCISE NAME   : JDBC Connection.
+
+****************************************************************
+
+________________
+
+JDBC Connection
+________________
+
+========================================================================================
+
+import java.sql.*;
+public class Connection1
+{
+    public static Connection setconnection ()
+    {
+        Connection conn= null;
+        try
+          {
+            String driverName = "oracle.jdbc.driver.OracleDriver";
+            Class.forName (driverName);
+            String url="jdbc:oracle:thin:@172.16.16.50:1521:ora21c";
+            String username="C##21BCS056";
+            String password="C##21BCS056";
+            conn=DriverManager.getConnection(url, username, password);
+            System.out.println("Successfully connected to database");
+        }
+        catch (ClassNotFoundException e)
+          {
+            System.out.println("Could not find database driver" + e.getMessage());
+        }
+        catch (SQLException e)
+          {
+            System.out.println("could not connect to database" + e.getMessage());
+        }
+        return conn;
+    }
+}
+
+========================================================================================
+
+________________
+
+Display Query:
+________________
+
+public void view (JTable table)
+{
+      try
+        {
+            con = Connection1.setconnection();
+            Statement st = con.createStatement();
+            String sql = "select * from INVENTORY";
+            rs=st.executeQuery (sql);
+            table.setModel(DbUtils.resultSetToTableModel(rs));
+      }
+      catch (SQLException e)
+        {
+        JOptionPane.showMessageDialog(null, e);
+      }
+}
+public static void main(String args[])
+{
+    try
+    {
+         for (javax.swing.UIManager.LookAndFeelInfo info :
+                javax.swing.UIManager.getInstalledLookAndFeels())
+           {
+            if ("Nimbus".equals(info.getName()))
+                {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+         }
+    }
+    catch (ClassNotFoundException | InstantiationException|IllegalAccessException|
+        javax.swing.UnsupportedLookAndFeelException ex)
+      {
+           java.util.logging.Logger.getLogger(INVENTORYTABLE.class.getName())
+                .log(java.util.logging.Level.SEVERE, null, ex);
+      }
+            INVENTORYTABLE s=new INVENTORYTABLE();
+            s.setTitle("INVENTORY");
+            s.setVisible(true);
+}
+
+========================================================================================
+________________
+
+Insertion Query:
+________________
+
+try
+{
+     con = Connection1.setconnection();
+     if("".equals(INVENTORY_IDTextField.getText()))
+     {
+         JOptionPane.showMessageDialog(null, "Please Enter inventory ID",
+                 "Error", JOptionPane.ERROR_MESSAGE);
+
+         return;
+     }
+
+     Statement st;
+     st = con.createStatement();
+     String sql1="select INVENTORY_ID from INVENTORY where INVENTORY_ID ='"+
+                INVENTORY_IDTextField.getText()+"'";
+
+     rs = st.executeQuery(sql1);
+
+     if(rs.next())
+     {
+         JOptionPane.showMessageDialog(null, "INVENTORY_ID already exists",
+                "Error", JOptionPane.ERROR_MESSAGE);
+
+         INVENTORY_IDTextField.setText("");
+         INVENTORY_IDTextField.requestDefaultFocus();
+         return;
+     }
+
+     String sql= "insert into INVENTORY(QUANTITY,INVENTORY_ID,SUPPLIER_ID) values
+          ('"+QUANTITYTextField.getText()+"','"+INVENTORY_IDTextField.getText()
+                +"','"+ SUPPLIER_IDTextField.getText()+"')";
+
+     pst = con.prepareStatement(sql);
+     pst.execute();
+     ImageIcon icon = new ImageIcon("C:\\Users\\srk\\Videos\\Electronic Goods Management
+                -Copy\\src\\GUI\\images\\Screenshot_20221218_163803.png");
+
+     JOptionPane.showMessageDialog(null, "Successfully INSERTED!",
+                "INVENTORY", HEIGHT, icon);
+
+     insertButton.setEnabled(false);
+}
+catch(HeadlessException | SQLException ex)
+{
+     JOptionPane.showMessageDialog(this, ex);
+}
+========================================================================================
+________________
+
+Updation Query:
+________________
+
+try
+{
+      con = Connection1.setconnection();
+      Statement st;
+      st = con.createStatement();
+      String sql1="select INVENTORY_ID from INVENTORY where INVENTORY_ID='"+
+                INVENTORY_IDTextField.getText()+"'";
+
+      rs = st.executeQuery(sql1);
+      if(!rs.next())
+      {
+          JOptionPane.showMessageDialog(null, "INVENTORY ID not exists", "Error",
+                JOptionPane.ERROR_MESSAGE);
+
+          INVENTORY_IDTextField.setText("");
+          INVENTORY_IDTextField.requestDefaultFocus();
+          return;
+      }
+
+      con = Connection1.setconnection();
+      String sql = "update INVENTORY set QUANTITY ='"+QUANTITYTextField.getText()
+                +"',SUPPLIER_ID='"+ SUPPLIER_IDTextField.getText()+"' where INVENTORY_ID
+                        ='"+INVENTORY_IDTextField.getText()+"'";
+
+        pst = con.prepareStatement(sql);
+      pst.execute();
+
+      if("".equals(INVENTORY_IDTextField.getText()))
+        {
+          JOptionPane.showMessageDialog(null, "Please Select a record to update");
+          return;
+      }
+      ImageIcon icon = new ImageIcon("C:\\Users\\srk\\Videos\\Electronic Goods Management
+                - Copy\\src\\GUI\\images\\Screenshot_20221218_163803.png");
+      JOptionPane.showMessageDialog(this,"Updated Successfully!","INVENTORY",HEIGHT,icon);
+      updateButton.setEnabled(false);
+}
+catch(HeadlessException | SQLException ex)
+{
+        JOptionPane.showMessageDialog(this,ex);
+}
+
+========================================================================================
+
+________________
+
+Deletion Query:
+________________
+
+try
+{
+     if("".equals(INVENTORY_IDTextField.getText()))
+     {
+         JOptionPane.showMessageDialog(null,"Please enter INVENTORY ID to delete record!");
+         return;
+     }
+     con = Connection1.setconnection();
+     Statement st;
+     st = con.createStatement();
+     String sql1="select INVENTORY_ID from INVENTORY where INVENTORY_ID='"+
+                INVENTORY_IDTextField.getText()+"'";
+
+     rs = st.executeQuery(sql1);
+     if(!rs.next()
+     {
+          JOptionPane.showMessageDialog(null, "INVENTORY ID not exists", "Error",
+                         JOptionPane.ERROR_MESSAGE);
+
+          INVENTORY_IDTextField.setText("");
+          INVENTORY_IDTextField.requestDefaultFocus();
+          return;
+     }
+     int d = JOptionPane.showConfirmDialog(this, "Are sure want to delete.?",
+                 "Confirmation", JOptionPane.YES_NO_OPTION);
+
+     if(d==0)
+     {
+          con = Connection1.setconnection();
+          String sql = "delete from INVENTORY where INVENTORY_ID='"+
+                        INVENTORY_IDTextField.getText()+"'";
+
+          pst = con.prepareStatement(sql);
+          pst.execute();
+          if("".equals(INVENTORY_IDTextField.getText()))
+            {
+              JOptionPane.showMessageDialog(null, "Please select a record to delete!");
+              return;
+          }
+          ImageIcon icon = new ImageIcon("C:\\Users\\srk\\Videos\\Electronic Goods Management
+                 - Copy\\src\\GUI\\images\\Screenshot_20221218_163803.png");
+
+          JOptionPane.showMessageDialog(this,"Successfully deleted","INVENTORY",HEIGHT,icon);
+          reset();
+     }
+}
+catch(HeadlessException | SQLException ex)
+{
+          JOptionPane.showMessageDialog(this, ex);
+          System.out.println(ex);
+}
+
+========================================================================================
