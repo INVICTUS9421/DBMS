@@ -1,0 +1,674 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 3
+
+EXERCISE NAME   : Implementation of data MANIPULATION language.
+
+****************************************************************
+
+
+****************************************************************
+                                INSERT
+****************************************************************
+
+1.Insert values into Payment table.
+
+SQL> INSERT INTO PAYMENT values(1111,'14/JUN/2022',2000);
+
+1 row created.
+
+Output:
+
+SQL> SELECT * FROM PAYMENT;
+
+TRANSACTION_ID                 DATE_OF_P     AMOUNT
+------------------------------ --------- ----------
+1111                           14-JUN-22       2000
+2222                           25-AUG-22      30000
+3333                           05-SEP-22      60000
+4444                           17-JAN-22      80000
+5555                           27-JAN-22       7000
+
+
+2. Insert values into DELIVERY_PARTNER table.
+
+
+SQL> INSERT INTO DELIVERY_PARTNER VALUES(1432,'PETER',9811732614);
+
+1 row created.
+
+SQL> SELECT * FROM DELIVERY_PARTNER;
+
+PARTNER_ID                PARTNER_NAME          MOBILE_NO
+------------------------- -------------------- ----------
+1432                      PETER                9811732614
+1433                      RAMKUMAR             8835715797
+1434                      DINESH               8764935187
+1435                      AKSHAY               9452789342
+1436                      AMARAN               9834617835
+
+
+3. Insert values into Supplier table.
+
+SQL> INSERT INTO SUPPLIER VALUES('RYAN','SUP345','New York City, New York');
+
+1 row created.
+
+SUP_NAME             SUP_ID ADDRESS
+-------------------- ------ ---------------------------------------------
+RYAN                 SUP345 New York City, New York
+RAJ                  SUP678 BONFIELD LANE KOLKATA
+LOKESH               SUP901 NORTHLANE-8,Haryana
+KUMAR                SUP012 19-MAIN STREET,PUNJAB
+
+
+4. Insert values into customer table.
+
+SQL> INSERT INTO CUSTOMER VALUES('KRISHNA',9736438462,'KRISHNA@GMAIL.COM','CUS001');
+
+1 row created.
+
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                        MOBILE_NO EMAIL                                              CUS_ID
+------------------------------ ---------- -------------------------------------------------- ------
+KRISHNA                        9736438462 KRISHNA@GMAIL.COM                                  CUS001
+SS                             8564738473 SS@GMAIL.COM                                       CUS002
+AKASH                          7874563498 AKASH@GMAIL.COM                                    CUS003
+ANONYMOUS                      9876563498 ANONYMOUS@GMAIL.COM                                CUS004
+JOHN WICK                      8725626798 WICK@GMAIL.COM                                     CUS005
+NATHAN                         2345626798 NF@YAHOO.COM                                       CUS006
+MARSHALL MATHERS               8745626798 EMINEM@REDIFF.COM                                  CUS007
+
+5.Insert values into Customers_cus_address.
+
+SQL> INSERT INTO CUSTOMER_CUSS_ADDRESS VALUES(CUS001,'71, ARUMUGAM STREET
+
+MADURAI');
+
+
+SQL> SELECT * FROM CUSTOMER_CUSS_ADDRESS;
+
+    CUS_ID CUS_ADDRESS
+---------- ---------------------------------------------------------------
+       CUS001 71, ARUMUGAM STREET MADURAI
+       CUS002 A1, KAMARAJAR STREET TMM
+       CUS003 F2, ENJIO COLONY VNR
+       CUS004 52, CROSS CUT ROAD JAWAHAR STREET, TAMBARAM
+       CUS005 73, WEST MOOLA STREET, MADURAI
+         CUS006 45, WEST CROSS STREET,MADURAI
+         CUS007 56, MAIN STREET,MADURAI
+
+6.Insert values into order table.
+
+SQL> INSERT INTO ORDER VALUES(300,'12-JUN-2003',20000,1111,200,1432);
+
+1 row created.
+
+SQL> SELECT * FROM ORDER;
+
+ORDER_ID             DATE_OF_O TOTAL_PRICE TRANSACTION_ID                     CUS_ID PARTNER_ID
+-------------------- --------- ----------- ------------------------------ ---------- -------------------------
+300                  12-JUN-03       20000 1111                                  200 1432
+301                  13-JAN-23       40000 2222                                  201 1433
+302                  21-DEC-12       70000 3333                                  202 1434
+303                  18-NOV-13       78000 4444                                  203 1435
+304                  28-JUL-20       90000 5555                                  204 1436
+
+
+7.Insert values into employee table.
+
+SQL> INSERT INTO EMPLOYEES VALUES(501,'AKASH',9472971915,101);
+
+1 row created.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+    EMP_ID EMP_NAME                  EMP_MOBILENO     SUP_ID
+---------- ------------------------- ------------ ----------
+       500 AKASH                       9472971915        101
+       501 SANTHOSH                    9845762351        102
+       502 KUMAR                       9824617263        103
+       503 KRISHNA                     9824516729        104
+       504 RAMAA                       7864218734        105
+
+
+8.Insert values into Inventory table.
+
+SQL> INSERT INTO INVENTORY VALUES(78,'LAP001','SUP345');
+
+1 row created.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+78     LAP001 SUP345
+123    LAP002 SUP345
+234    HEA001 SUP678
+45     HEA002 SUP012
+55     USB002 SUP678
+98     USB001 SUP901
+
+6 rows selected.
+
+
+9.Insert values into product table.
+
+SQL> INSERT INTO PRODUCT VALUES('PRO001','DELL',65000,'INSPIRON','LAP001');
+
+1 row created.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 87000 ALIENWARE       LAP002
+PRO003 BOAT                  3000 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6 rows selected.
+
+10.Insert values into Has table.
+
+SQL> INSERT INTO HAS VALUES(PRO001,901);
+
+1 row created.
+
+SQL> SELECT * FROM HAS;
+
+ORDER_ID             PRODUCT_ID
+-------------------- ----------
+300                         PRO001
+301                         PRO003
+302                         PRO005
+303                         PRO007
+304                         PRO006
+
+
+11.Insert vaues into Handle table.
+
+SQL> INSERT INTO HANDLE VALUES(CUS001,500);
+
+1 row created.
+
+SQL> SELECT * FROM HANDLE;
+
+    CUS_ID     EMP_ID
+---------- ----------
+       CUS001        500
+       CUS004        501
+       CUS005        502
+       CUS003        503
+       CUS002        504
+         CUS006        505
+         CUS007        506
+
+****************************************************************
+                                   SELECT
+****************************************************************
+
+1.Display product which has amount greater
+
+ than 7000.
+
+SQL> SELECT * FROM PRODUCT WHERE COST > 7000;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 87000 ALIENWARE       LAP002
+
+2.Display product which has id
+
+'PRO002'
+
+SQL> SELECT * FROM PRODUCT WHERE PRODUCT_ID = 'PRO002';
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO002 DELL                 87000 ALIENWARE       LAP002
+
+3.Display product which has id
+
+greater than 'PRO004'
+
+SQL> SELECT * FROM PRODUCT WHERE PRODUCT_ID > 'PRO004';
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+4.Display payment details which have id
+
+PRO003,PRO004.
+
+SQL> SELECT * FROM PRODUCT WHERE PRODUCT_ID IN ('PRO003','PRO004');
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO003 BOAT                  3000 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+
+5.Write a query to 8display product details which has amount between
+
+ 1000 and 8000.
+
+SQL> SELECT * FROM PRODUCT WHERE COST BETWEEN 1000 AND 8000;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO003 BOAT                  3000 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6.Write a query to display CUSTOMER details which has id
+
+'CUS001'
+
+SQL> SELECT * FROM CUSTOMER WHERE CUS_ID = 'CUS001';
+
+CUS_NAME                MOBILE_NO EMAIL               CUS_ID
+---------------------  ---------- ------------------- ----------
+KRISHNA                 9736438462 KRISHNA@GMAIL.COM   CUS001
+
+7.Write a query to display CUSTOMER details where phone no is
+
+8725626798.
+
+CUS_NAME            MOBILE_NO EMAIL                    CUS_ID
+------------------- ---------- ----------------------- ------
+JOHN WICK           8725626798 WICK@GMAIL.COM          CUS005
+
+8.Display in inventory which has id 'LAP004'
+
+QUANTITY  INVENTORY_ID   SUPPLIER_ID
+------    -----------   -----------
+ 123        LAP002          SUP345
+
+
+9.Write a query to Display quantity supplied by supplier where
+
+supplier where id is 'SUP012'
+
+
+SQL> SELECT QUANTITY FROM INVENTORY WHERE SUPPLIER_ID = 'SUP012';
+
+QUANTITY
+------
+45
+
+
+10.Write a query to Display quantity supplied & supplier name where
+
+inventory where id is 'HEA012'
+
+
+SQL> SELECT QUANTITY,SUPPLIER_ID FROM INVENTORY WHERE INVENTORY_ID = 'HEA001';
+
+QUANTITY  SUPPLIER
+--------  ------
+234       SUP678
+
+
+11.Write a query to Display MAXIMUM of COST.
+
+
+SQL> SELECT MAX(COST) FROM PRODUCT;
+
+ MAX(COST)
+----------
+     87000
+
+12.Write a query to Display MINIMUM of COST.
+
+
+SQL> SELECT MIN(COST) FROM PRODUCT;
+
+ MIN(COST)
+----------
+      3000
+
+13.Write a query to Display AVERAGE of COST.
+
+
+SQL> SELECT AVG(COST) FROM PRODUCT;
+
+ AVG(COST)
+----------
+28833.3333
+
+
+14.Write a query to Display SUM of COST.
+
+
+SQL> SELECT SUM(COST) FROM PRODUCT;
+
+ SUM(COST)
+----------
+    173000
+
+15.Write a query to Display COUNT of product table.
+
+SQL> SELECT COUNT(*) FROM PRODUCT;
+
+  COUNT(*)
+----------
+         6
+
+16.Write a query to Display CUSTOMER order_id.
+
+SQL> SELECT DISTINCT CUS_ID FROM CUSTOMER;
+
+CUS_ID
+------
+CUS001
+CUS002
+CUS003
+CUS004
+CUS005
+CUS006
+CUS007
+
+7 rows selected.
+
+17.Write a query to Display CUS_NAME in upper case.
+
+SQL> SELECT UPPER(CUS_NAME) FROM CUSTOMER;
+
+UPPER(CUS_NAME)
+------------------------------
+KRISHNA
+SS
+AKASH
+ANONYMOUS
+JOHN WICK
+NATHAN
+MARSHALL MATHERS
+
+7 rows selected.
+
+
+18.Write a query to Display CUS_NAME in LOWER case.
+
+
+SQL> SELECT LOWER(CUS_NAME) FROM CUSTOMER;
+
+LOWER(CUS_NAME)
+------------------------------
+krishna
+ss
+akash
+anonymous
+john wick
+nathan
+marshall mathers
+
+7 rows selected.
+
+
+19.Write a query to Display group by supplier_id having
+
+SUPPLIER_ID as 'SUP345'.
+
+SQL> SELECT SUPPLIER_ID,COUNT(SUPPLIER_ID) FROM INVENTORY GROUP BY
+SUPPLIER_ID HAVING SUPPLIER_ID = 'SUP345';
+
+SUPPLI COUNT(SUPPLIER_ID)
+------ ------------------
+SUP345                  2
+
+
+20.Write a query to Display INVENTORY details.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+78     LAP001 SUP345
+123    LAP002 SUP345
+234    HEA001 SUP678
+45     HEA002 SUP012
+55     USB002 SUP678
+98     USB001 SUP901
+
+6 rows selected.
+
+
+21.Write a query to Display PRODUCT details.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 87000 ALIENWARE       LAP002
+PRO003 BOAT                  3000 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6 rows selected.
+
+22.Write a query to Display date in Payment table in 'YYYY-MM-DD hh-mm-ss' format.
+
+SQL> SELECT TO_CHAR(DATE_OF_TRANSACTION,'YYYY-MM-DD hh-mm-ss') DATE_OF_TRANSACTION FROM PAYMENT;
+
+DATE_OF_TRANSACTION
+-------------------
+2022-06-14 12-06-00
+2022-06-14 12-06-00
+2022-09-05 12-09-00
+2022-01-17 12-01-00
+2022-01-27 12-01-00
+
+23.Write a query to Display YEAR of transaction in Payment;
+
+SQL> SELECT TO_CHAR(DATE_OF_TRANSACTION,'YYYY')YEAR FROM PAYMENT;
+
+YEAR
+----
+2022
+2022
+2022
+2022
+2022
+
+
+23.Write a query to Display CUSTOMER details.
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                  MOBILE_NO EMAIL                        CUS_ID
+------------------------- ---------- --------------------------- ------
+KRISHNA                    9736438462 KRISHNA@GMAIL.COM           CUS001
+SS                         8564738473 SS@GMAIL.COM                CUS002
+AKASH                      7874563498 AKASH@GMAIL.COM             CUS003
+ANONYMOUS                  9876563498 ANONYMOUS@GMAIL.COM         CUS004
+JOHN WICK                  8725626798 WICK@GMAIL.COM              CUS005
+NATHAN                     2345626798 NF@YAHOO.COM                CUS006
+MARSHALL MATHERS           8745626798 EMINEM@REDIFF.COM           CUS007
+
+7 rows selected.
+
+
+24.Write a query to Display details of products except PRO003 & PRO004 .
+
+SQL> SELECT * FROM PRODUCT WHERE PRODUCT_ID NOT IN('PRO003','PRO004');
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+****************************************************************
+                                 UPDATE
+****************************************************************
+
+1.Write a query to Change name of customer.
+
+
+SQL> UPDATE CUSTOMER SET CUS_NAME = 'SANTHOSH' WHERE CUS_ID = 'CUS002';
+
+1 row updated.
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                  MOBILE_NO EMAIL                        CUS_ID
+------------------------- ---------- --------------------------- ------
+KRISHNA                    9736438462 KRISHNA@GMAIL.COM           CUS001
+SANTHOSH                   8564738473 SS@GMAIL.COM                CUS002
+AKASH                      7874563498 AKASH@GMAIL.COM             CUS003
+ANONYMOUS                  9876563498 ANONYMOUS@GMAIL.COM         CUS004
+JOHN WICK                  8725626798 WICK@GMAIL.COM              CUS005
+NATHAN                     2345626798 NF@YAHOO.COM                CUS006
+MARSHALL MATHERS           8745626798 EMINEM@REDIFF.COM           CUS007
+
+
+2.Write a query to Increment all products in inventory by 10
+
+
+SQL> UPDATE INVENTORY SET QUANTITY = QUANTITY+10;
+
+6 rows updated.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+88     LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+6 rows selected.
+
+
+3.Write a query to Increase quantity of LAP001 by 25
+
+SQL> UPDATE INVENTORY SET QUANTITY = QUANTITY+25 WHERE INVENTORY_ID = 'LAP001';
+
+1 row updated.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+6 rows selected.
+
+
+4.Write a query to Set cost of PRO002 to 90000
+
+SQL> UPDATE PRODUCT SET COST = 90000 WHERE PRODUCT_ID = 'PRO002';
+
+1 row updated.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3000 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6 rows selected.
+
+
+5.Write a query to Increment cost of PRO003 by 0.3%
+
+
+SQL> UPDATE PRODUCT SET COST = COST+COST*0.3 WHERE PRODUCT_ID = 'PRO003';
+
+1 row updated.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO004 BOAT                  5000 ROCKERS         HEA002
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+6 rows selected.
+
+****************************************************************
+                                  DELETE
+****************************************************************
+
+1.Write a query to Delete details of customer whose emailid
+
+is 'ANONYMOUS@GMAIL.COM'
+
+SQL> DELETE FROM CUSTOMER WHERE EMAIL = 'ANONYMOUS@GMAIL.COM';
+
+1 row deleted.
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                  MOBILE_NO EMAIL                        CUS_ID
+------------------------- ---------- --------------------------- ------
+KRISHNA                    9736438462 KRISHNA@GMAIL.COM           CUS001
+SANTHOSH                   8564738473 SS@GMAIL.COM                CUS002
+AKASH                      7874563498 AKASH@GMAIL.COM             CUS003
+JOHN WICK                  8725626798 WICK@GMAIL.COM              CUS005
+NATHAN                     2345626798 NF@YAHOO.COM                CUS006
+MARSHALL MATHERS           8745626798 EMINEM@REDIFF.COM           CUS007
+
+6 rows selected.
+
+
+2.Write a query to Remove product 'HEA002'
+
+SQL> DELETE FROM PRODUCT WHERE INVENTORY_ID = 'HEA002';
+
+1 row deleted.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+6 rows selected.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
