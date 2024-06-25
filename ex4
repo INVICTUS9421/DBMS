@@ -1,0 +1,342 @@
+***************************************************************
+
+NAME                    : SHIVA RAAMA KRISHNA K
+
+ROLL.NO                 : 21BCS056
+
+EXERCISE.NO             : 4
+
+EXERCISE NAME           : Implementation of Nested Queries.
+
+****************************************************************
+_______
+
+CUSTOMER
+________
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                   MOBILE_NO  EMAIL                                    CUS_ID
+-------------------------- ---------- ---------------------------------------- ------
+KRISHNA                    9736438462 KRISHNA@GMAIL.COM                        CUS001
+SANTHOSH                   8564738473 SS@GMAIL.COM                             CUS002
+AKASH                      7874563498 AKASH@GMAIL.COM                          CUS003
+JOHN WICK                  8725626798 WICK@GMAIL.COM                           CUS005
+NATHAN                     2345626798 NF@YAHOO.COM                             CUS006
+MARSHALL MATHERS           8745626798 EMINEM@REDIFF.COM                        CUS007
+
+6 rows selected.
+
+________
+
+PRODUCT
+________
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+________
+
+INVENTORY
+________
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+6 rows selected.
+
+*****************************************************************************************************
+1.Write a query to display names of customer whose names start with 'k'
+
+SQL> SELECT * FROM CUSTOMER WHERE CUS_NAME IN
+(SELECT CUS_NAME FROM CUSTOMER WHERE CUS_NAME LIKE 'K%');
+
+CUS_NAME                        MOBILE_NO EMAIL                              CUS_ID
+------------------------------ ---------- ---------------------------------- ------
+KRISHNA                        9736438462 KRISHNA@GMAIL.COM                  CUS001
+
+*****************************************************************************************************
+2.Write a query to display products with unique name.
+
+SQL> SELECT DISTINCT PROD_NAME FROM PRODUCT WHERE INVENTORY_ID IN
+(SELECT INVENTORY_ID FROM INVENTORY);
+
+PROD_NAME
+---------------
+INSPIRON
+ALIENWARE
+BASS HEADS
+USB3.0
+TASK ALFA
+
+*****************************************************************************************************
+3.Display NAME,COST,BRAND of product which costs more than 10000
+
+SQL> SELECT BRAND,PROD_NAME,COST FROM PRODUCT WHERE INVENTORY_ID IN
+(SELECT INVENTORY_ID FROM INVENTORY) AND COST < 10000;
+
+BRAND           PROD_NAME             COST
+--------------- --------------- ----------
+BOAT            BASS HEADS            3900
+SANDISK         USB3.0                6000
+INVINCI         TASK ALFA             7000
+
+*****************************************************************************************************
+4.Write a query to insert PRODUCT NAME,ID,COST of products whose quantity is more than 100
+into a new table.
+
+SQL> CREATE TABLE EXCESS(PROD_NAME VARCHAR2(20),PRODUCT_ID VARCHAR2(6) CONSTRAINT
+EXC_PRODUCT_ID_FK REFERENCES PRODUCT(PRODUCT_ID),COST NUMBER(6));
+
+SQL> DESC EXCESS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PROD_NAME                                          VARCHAR2(20)
+ PRODUCT_ID                                         VARCHAR2(6)
+ COST                                               NUMBER(6)
+
+SQL> INSERT INTO EXCESS(SELECT PROD_NAME,PRODUCT_ID,COST FROM PRODUCT WHERE INVENTORY_ID IN
+(SELECT INVENTORY_ID FROM INVENTORY WHERE QUANTITY > 100));
+
+4 rows created.
+
+SQL> SELECT * FROM EXCESS;
+
+PROD_NAME            PRODUC       COST
+-------------------- ------ ----------
+BASS HEADS           PRO003       3900
+INSPIRON             PRO001      65000
+ALIENWARE            PRO002      90000
+USB3.0               PRO005       6000
+
+*****************************************************************************************************
+5.Display inventory_id,supplier_id of the product with minimum stock in inventory
+
+SQL> SELECT INVENTORY_ID,SUPPLIER_ID FROM INVENTORY WHERE QUANTITY =
+(SELECT MIN(QUANTITY) FROM INVENTORY);
+
+INVENT SUPPLI
+------ ------
+USB001 SUP901
+
+*****************************************************************************************************
+6.Display inventory_id,supplier_id of the product with maximum stock in inventory
+
+SQL> SELECT INVENTORY_ID,SUPPLIER_ID FROM INVENTORY WHERE QUANTITY =
+(SELECT MAX(QUANTITY) FROM INVENTORY);
+
+INVENT SUPPLI
+------ ------
+USB002 SUP678
+
+*****************************************************************************************************
+7.Write a query to display brand,cost,no of suppliers
+
+SQL> SELECT BRAND,COST,(SELECT COUNT(SUPPLIER_ID) FROM INVENTORY) AS COUNT FROM PRODUCT;
+
+BRAND                 COST      COUNT
+--------------- ---------- ----------
+DELL                 65000         10
+DELL                 90000         10
+BOAT                  3900         10
+SANDISK               6000         10
+INVINCI               7000         10
+
+*****************************************************************************************************
+8.Write a query to display name,cost,brand and Availability of prouduct.
+
+SQL> SELECT PROD_NAME,BRAND,COST,'AVAILABLE' AS STATUS,
+(SELECT QUANTITY FROM INVENTORY WHERE PRODUCT.INVENTORY_ID = INVENTORY.INVENTORY_ID) AS QUANTITY FROM PRODUCT;
+
+PROD_NAME       BRAND                 COST STATUS    QUANTI
+--------------- --------------- ---------- --------- ------
+INSPIRON        DELL                 65000 AVAILABLE 113
+ALIENWARE       DELL                 90000 AVAILABLE 133
+BASS HEADS      BOAT                  3900 AVAILABLE 244
+USB3.0          SANDISK               6000 AVAILABLE 108
+TASK ALFA       INVINCI               7000 AVAILABLE 65
+
+
+
+*****************************************************************************************************
+9.Write a nested query to display name,cost of product.
+
+SQL> SELECT * FROM (SELECT PROD_NAME,COST FROM PRODUCT);
+PROD_NAME             COST
+--------------- ----------
+INSPIRON             65000
+ALIENWARE            90000
+BASS HEADS            3900
+USB3.0                6000
+TASK ALFA             7000
+*****************************************************************************************************
+10.Write a query to display details of customers except that of 'Michael'.
+
+SQL> SELECT * FROM CUSTOMER  WHERE CUS_NAME NOT IN(SELECT CUS_NAME FROM CUSTOMER WHERE CUS_NAME LIKE 'MICHAEL');
+
+CUS_NAME                        MOBILE_NO EMAIL                                              CUS_ID
+------------------------------ ---------- -------------------------------------------------- ------
+AKASH                          7874563498 AKASH@GMAIL.COM                                    CUS003
+NATHAN                         2345626798 NF@YAHOO.COM                                       CUS006
+MARSHALL MATHERS               8745626798 EMINEM@REDIFF.COM                                  CUS007
+JOHN WICK                      8725626798 WICK@GMAIL.COM                                     CUS005
+SANTHOSH                       8564738473 SS@GMAIL.COM                                       CUS002
+KRISHNA                        9736438462 KRISHNA@GMAIL.COM                                  CUS001
+
+6 rows selected.
+
+*****************************************************************************************************
+11.Write a query to display details of products which cost less than 6000.
+
+SQL> SELECT BRAND,COST,PROD_NAME FROM PRODUCT WHERE COST NOT IN
+(SELECT COST FROM PRODUCT WHERE COST > 6000);
+
+BRAND                 COST PROD_NAME
+--------------- ---------- ---------------
+SANDISK               6000 USB3.0
+BOAT                  3900 BASS HEADS
+
+*****************************************************************************************************
+12.Write a query to display INVENTORY ID of product whose quantity is more than average
+
+SQL> SELECT INVENTORY_ID FROM INVENTORY I GROUP BY INVENTORY_ID HAVING AVG(QUANTITY) >
+SOME(SELECT QUANTITY FROM INVENTORY);
+
+INVENT
+------
+HEA001
+LAP001
+LAP002
+LAP003
+LAP004
+MOU001
+MOU002
+USB001
+USB002
+
+9 rows selected.
+*****************************************************************************************************
+13.Write a query to display INVENTORY ID of product whose quantity is more than average
+
+SQL> SELECT INVENTORY_ID FROM INVENTORY I GROUP BY INVENTORY_ID HAVING AVG(QUANTITY) >=
+ALL(SELECT QUANTITY FROM INVENTORY);
+
+INVENT
+------
+HEA001
+*****************************************************************************************************
+___________________
+CORRELATED QUERIES:
+___________________
+
+
+*****************************************************************************************************
+1.Write a query to display brand,product name,cost from product only if that product
+is available in Inventory
+
+SQL> SELECT BRAND,PROD_NAME,COST FROM PRODUCT P WHERE INVENTORY_ID IN
+(SELECT INVENTORY_ID FROM INVENTORY I WHERE P.INVENTORY_ID = I.INVENTORY_ID);
+
+BRAND           PROD_NAME             COST
+--------------- --------------- ----------
+DELL            INSPIRON             65000
+DELL            ALIENWARE            90000
+BOAT            BASS HEADS            3900
+SANDISK         USB3.0                6000
+INVINCI         TASK ALFA             7000
+
+*****************************************************************************************************
+2.Display all details of a product if that proudct is available in inventory
+
+SQL> SELECT * FROM PRODUCT P WHERE EXISTS(SELECT INVENTORY_ID FROM INVENTORY I
+WHERE P.INVENTORY_ID = I.INVENTORY_ID);
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+*****************************************************************************************************
+3.Write a query to display brand,product name,cost of the product that is not available in inventory.
+
+SQL> SELECT BRAND,PROD_NAME,COST FROM PRODUCT P WHERE INVENTORY_ID NOT IN
+(SELECT INVENTORY_ID FROM INVENTORY I WHERE P.INVENTORY_ID = I.INVENTORY_ID);
+
+no rows selected
+
+*****************************************************************************************************
+4.Write a query to display details of the product whose cost is greater than average cost of products.
+
+SQL> SELECT * FROM PRODUCT P1 WHERE COST >= (SELECT AVG(COST) FROM PRODUCT P2 WHERE
+P1.PRODUCT_ID = P2.PRODUCT_ID);
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+*****************************************************************************************************
+5.Write a query to display details of products in inventory only if it is available in product table.
+
+SQL> SELECT * FROM INVENTORY I1 WHERE EXISTS(SELECT INVENTORY_ID FROM PRODUCT P1 WHERE
+P1.INVENTORY_ID = I1.INVENTORY_ID);
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+108    USB001 SUP901
+65     USB002 SUP678
+
+*****************************************************************************************************
+6.Write a query to display details of products in inventory not available in product table.
+
+SQL> SELECT * FROM INVENTORY I1 WHERE NOT EXISTS
+(SELECT INVENTORY_ID FROM PRODUCT P1 WHERE P1.INVENTORY_ID = I1.INVENTORY_ID);
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+55     HEA002 SUP012
+65     LAP004 SUP901
+87     MOU001 SUP678
+87     MOU002 SUP678
+
+*****************************************************************************************************
+7.Write a query to display name,brand,cost,no of suppliers supplying that product.
+
+SQL> SELECT PROD_NAME,BRAND,COST,
+(SELECT COUNT(SUPPLIER_ID) FROM INVENTORY WHERE INVENTORY.INVENTORY_ID = PRODUCT.INVENTORY_ID)
+AS COUNT FROM PRODUCT;
+
+PROD_NAME       BRAND                 COST      COUNT
+--------------- --------------- ---------- ----------
+INSPIRON        DELL                 65000          1
+ALIENWARE       DELL                 90000          1
+BASS HEADS      BOAT                  3900          1
+USB3.0          SANDISK               6000          1
+TASK ALFA       INVINCI               7000          1
+
+*****************************************************************************************************ex
