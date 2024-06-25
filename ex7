@@ -1,0 +1,334 @@
+***************************************************************
+
+NAME            : SHIVA RAAMA KRISHNA K
+
+ROLL.NO         : 21BCS056
+
+EXERCISE.NO     : 7
+
+EXERCISE NAME   : Implementation of Triggers.
+
+****************************************************************
+
+____________
+
+  TRIGGERS
+____________
+
+1.Write a query to automatically add date of join for customer.
+
+
+SQL> CREATE OR REPLACE TRIGGER DATEOFJOIN
+  2  BEFORE INSERT ON CUSTOMER
+  3  FOR EACH ROW
+  4  DECLARE
+  5  TEMP DATE;
+  6  BEGIN
+  7     SELECT sysdate INTO TEMP FROM dual;
+  8     IF :NEW.DOJ IS NULL THEN
+  9             :NEW.DOJ := TEMP;
+ 10  END IF;
+ 11  END;
+ 12  /
+
+Trigger created.
+
+SQL> INSERT INTO CUSTOMER(CUS_NAME,MOBILE_NO,EMAIL,CUS_ID)
+VALUES ('AN',6585748395,'AN@MAIL.COM','CUS123');
+
+1 row created.
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME             MOBILE_NO EMAIL                    CUS_ID DOJ
+-------------------- ---------- ----------------------- ------ ---------
+MICHAEL                                                 CUS222
+KRISHNA              9736438462 KRISHNA@GMAIL.COM       CUS001
+SANTHOSH             8564738473 SS@GMAIL.COM            CUS002
+AKASH                7874563498 AKASH@GMAIL.COM         CUS003
+JOHN WICK            8725626798 WICK@GMAIL.COM          CUS005
+NATHAN               2345626798 NF@YAHOO.COM            CUS006
+MARSHALL MATHERS     8745626798 EMINEM@REDIFF.COM       CUS007
+AN                   6585748395 AN@MAIL.COM             CUS123 05-MAY-23
+
+========================================================================================
+2.Write a query to update all costs to 0.02%.
+
+SQL> CREATE OR REPLACE TRIGGER COSTUPDATE
+  2  BEFORE UPDATE ON PRODUCT
+  3  FOR EACH ROW
+  4  BEGIN
+  5     :NEW.COST := :OLD.COST + :OLD.COST*0.02;
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> UPDATE PRODUCT SET COST = COST-100 WHERE PRODUCT_ID = 'PRO002';
+
+1 row updated.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO002 DELL                 91800 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+============================================================================
+3.Write a query to display if the updated cost is more than 50.
+
+SQL> CREATE OR REPLACE TRIGGER UPDATECOST2
+  2  AFTER UPDATE ON PRODUCT
+  3  FOR EACH ROW
+  4  WHEN (NEW.COST > 50)
+  5  BEGIN
+  6     DBMS_OUTPUT.PUT_LINE('OLD COST:' || :OLD.COST);
+  7     DBMS_OUTPUT.PUT_LINE('NEW COST:' || :NEW.COST);
+  8  END;
+  9  /
+
+Trigger created.
+
+SQL> UPDATE PRODUCT SET COST = COST-100 WHERE PRODUCT_ID = 'PRO002';
+OLD COST:128541
+NEW COST:131112
+
+1 row updated.
+
+=============================================================================
+4.Write a query to show if the newly updated cost is more than the old cost.
+
+SQL> CREATE OR REPLACE TRIGGER DISP
+  2  BEFORE UPDATE OF COST ON PRODUCT
+  3  FOR EACH ROW
+  4  BEGIN
+  5  IF (:new.COST > :old.COST ) THEN
+  6             dbms_output.put_line('HIGHER THAN OLDER COST');
+  7  END IF;
+  8  END;
+  9  /
+
+Trigger created.
+
+SQL> UPDATE PRODUCT SET COST = COST+100 WHERE PRODUCT_ID = 'PRO006';
+HIGHER THAN OLDER COST
+OLD COST:8204
+NEW COST:8368
+
+1 row updated.
+==============================================================================
+5.Write a query to display an error message when the there is no phone no.
+
+******************************************************************************
+RAISE AN APPLICATION ERROR IF THERE IS AN MISSING ATTRIBUTE
+******************************************************************************
+SQL> CREATE OR REPLACE TRIGGER CHECKPHONE
+  2  BEFORE INSERT ON CUSTOMER
+  3  FOR EACH ROW
+  4  BEGIN
+  5  IF(:NEW.MOBILE_NO IS NULL) THEN
+  6             RAISE_APPLICATION_ERROR(-20004,'PHONE NO IS EMPTY');
+  7  END IF;
+  8  END;
+  9  /
+
+Trigger created.
+
+SQL> INSERT INTO CUSTOMER(CUS_NAME,EMAIL,CUS_ID) VALUES
+('ANONYMOUS','ANONYMOUS@GMAIL.COM','CUS987');
+
+INSERT INTO CUSTOMER(CUS_NAME,EMAIL,CUS_ID) VALUES
+('ANONYMOUS','ANONYMOUS@GMAIL.COM','CUS987')
+            *
+ERROR at line 1:
+ORA-20004: PHONE NO IS EMPTY
+ORA-06512: at "C##21BCS056.CHECKPHONE", line 3
+ORA-04088: error during execution of trigger 'C##21BCS056.CHECKPHONE'
+-----------------------------------------------------------------------------------------
+SQL> INSERT INTO CUSTOMER(CUS_NAME,EMAIL,CUS_ID)
+ VALUES('ROGER','ROGER@EMAIL.COM','CUS009');
+
+INSERT INTO CUSTOMER(CUS_NAME,EMAIL,CUS_ID)
+VALUES('ROGER','ROGER@EMAIL.COM','CUS009')
+            *
+ERROR at line 1:
+ORA-20004: PHONE NO IS EMPTY
+ORA-06512: at "C##21BCS056.CHECKPHONE", line 3
+ORA-04088: error during execution of trigger 'C##21BCS056.CHECKPHONE'
+
+========================================================================================
+6.Write a query to create a backup of customer info.
+
+SQL> CREATE TABLE CUSTOMERBACKUP(CUS_NAME VARCHAR2(30),MOBILE_NO NUMBER(10),
+EMAIL VARCHAR2(50),CUS_ID VARCHAR2(6));
+
+Table created.
+
+SQL> CREATE OR REPLACE TRIGGER BACKUP1
+  2  AFTER INSERT ON CUSTOMER
+  3  FOR EACH ROW
+  4  BEGIN
+  5             INSERT INTO CUSTOMERBACKUP(CUS_NAME,MOBILE_NO,EMAIL,CUS_ID)
+  6             VALUES(:NEW.CUS_NAME,:NEW.MOBILE_NO,:NEW.EMAIL,:NEW.CUS_ID);
+  7  END;
+  8  /
+
+Trigger created.
+
+SQL> INSERT INTO CUSTOMER VALUES('VISHAL',7458375638,'VISHAL@YAHOO.COM',
+'CUS008','12-JAN-2023');
+
+1 row created.
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME               MOBILE_NO   EMAIL                      CUS_ID  DOJ
+---------------------- ---------- ---------------------------- ------ -------
+MICHAEL                                                        CUS222
+KRISHNA                9736438462 KRISHNA@GMAIL.COM            CUS001
+SANTHOSH               8564738473 SS@GMAIL.COM                 CUS002
+AKASH                  7874563498 AKASH@GMAIL.COM              CUS003
+JOHN WICK              8725626798 WICK@GMAIL.COM               CUS005
+NATHAN                 2345626798 NF@YAHOO.COM                 CUS006
+MARSHALL MATHERS       8745626798 EMINEM@REDIFF.COM            CUS007
+AN                     6585748395 AN@MAIL.COM                  CUS123 05-MAY-23
+VISHAL                 7458375638 VISHAL@YAHOO.COM             CUS008 12-JAN-23
+
+9 rows selected.
+
+SQL> SELECT * FROM CUSTOMERBACKUP;
+
+CUS_NAME    MOBILE_NO  EMAIL                    CUS_ID
+----------- ---------- ------------------------ ------
+VISHAL      7458375638 VISHAL@YAHOO.COM         CUS008
+
+========================================================================================
+7.Write a query to create a table for deleted customer info.
+
+SQL> CREATE TABLE CUSDEL(CUS_NAME VARCHAR2(30),MOBILE_NO NUMBER(10),
+EMAIL VARCHAR2(50));
+
+Table created.
+
+SQL> CREATE OR REPLACE TRIGGER CUSDEL
+  2  BEFORE DELETE ON CUSTOMER
+  3  FOR EACH ROW
+  4  BEGIN
+  5             INSERT INTO CUSDEL(CUS_NAME,MOBILE_NO,EMAIL)
+  6             VALUES(:OLD.CUS_NAME,:OLD.MOBILE_NO,:OLD.EMAIL);
+  7  END;
+  8  /
+
+Trigger created.
+
+SQL> DELETE FROM CUSTOMER WHERE CUS_ID = 'CUS222';
+
+1 row deleted.
+
+SQL> SELECT * FROM CUSDEL;
+
+CUS_NAME           MOBILE_NO EMAIL
+----------------- ---------- -----------------
+MICHAEL
+
+
+========================================================================================
+8.Write a query to automatically delete child records in INVENTORY table.
+
+SQL> CREATE OR REPLACE TRIGGER INVDEL
+  2  AFTER DELETE ON INVENTORY
+  3  FOR EACH ROW
+  4  BEGIN
+  5             DELETE FROM PRODUCT WHERE INVENTORY_ID = :OLD.INVENTORY_ID;
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+65     LAP003 SUP901
+87     MOU001 SUP678
+65     LAP004 SUP901
+87     MOU002 SUP678
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+10 rows selected.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO002 DELL                126021 ALIENWARE       LAP002
+PRO003 BOAT                  4480 BASS HEADS      HEA001
+PRO005 SANDISK               7029 USB3.0          USB001
+PRO006 INVINCI               8204 TASK ALFA       USB002
+
+========================================================================================
+9.Write a query to show if the entered record has PRODUCT_ID as NULL.
+
+SQL> CREATE OR REPLACE TRIGGER IDNN
+  2  BEFORE INSERT ON PRODUCT
+  3  FOR EACH ROW
+  4  BEGIN
+  5  IF(:NEW.PRODUCT_ID IS NULL)THEN
+  6             RAISE_APPLICATION_ERROR(-20005,'PRODUCT_ID IS EMPTY');
+  7  END IF;
+  8  END;
+  9  /
+
+Trigger created.
+
+******************************************************************************
+RAISE AN APPLICATION ERROR IF THERE IS AN MISSING ATTRIBUTE
+******************************************************************************
+
+SQL> INSERT INTO PRODUCT(BRAND,COST,PROD_NAME,INVENTORY_ID)
+ VALUES('ZORO.INC',6000,'SHISUI','LAP003');
+
+INSERT INTO PRODUCT(BRAND,COST,PROD_NAME,INVENTORY_ID)
+ VALUES('ZORO.INC',6000,'SHISUI','LAP003')
+            *
+ERROR at line 1:
+ORA-20005: PRODUCT_ID IS EMPTY
+ORA-06512: at "C##21BCS056.IDNN", line 3
+ORA-04088: error during execution of trigger 'C##21BCS056.IDNN'
+========================================================================================
+10.Write a query to create a trigger which inserts values in main table
+instead of view.
+
+SQL> CREATE OR REPLACE TRIGGER PROVIEW
+  2  INSTEAD OF INSERT ON PROVIEW
+  3  FOR EACH ROW
+  4     BEGIN
+  5             INSERT INTO PRODUCT(INVENTORY_ID,PRODUCT_ID,COST) VALUES(:NEW.INVENTORY_ID,
+                :NEW.PRODUCT_ID,:NEW.COST);
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> INSERT INTO PROVIEW VALUES('MOU001','PRO666',5674);
+
+1 row created.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO666                       5674                 MOU001
+PRO002 DELL                131112 ALIENWARE       LAP002
+PRO005 SANDISK               7029 USB3.0          USB001
+PRO006 INVINCI               8368 TASK ALFA       USB002
+
+========================================================================================
