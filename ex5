@@ -1,0 +1,278 @@
+***************************************************************
+
+NAME                    : SHIVA RAAMA KRISHNA K
+
+ROLL.NO                 : 21BCS056
+
+EXERCISE.NO             : 5
+
+EXERCISE NAME           : Implementation of JOINS.
+
+****************************************************************
+Display tables
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUS_NAME                        MOBILE_NO EMAIL                         CUS_ID
+------------------------------ ---------- ----------------------------- ------
+KRISHNA                        9736438462 KRISHNA@GMAIL.COM             CUS001
+SANTHOSH                       8564738473 SS@GMAIL.COM                  CUS002
+AKASH                          7874563498 AKASH@GMAIL.COM               CUS003
+JOHN WICK                      8725626798 WICK@GMAIL.COM                CUS005
+NATHAN                         2345626798 NF@YAHOO.COM                  CUS006
+MARSHALL MATHERS               8745626798 EMINEM@REDIFF.COM             CUS007
+
+6 rows selected.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO001 DELL                 65000 INSPIRON        LAP001
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO005 SANDISK               6000 USB3.0          USB001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+
+SQL> SELECT * FROM INVENTORY;
+
+QUANTI INVENT SUPPLI
+------ ------ ------
+113    LAP001 SUP345
+133    LAP002 SUP345
+244    HEA001 SUP678
+55     HEA002 SUP012
+65     USB002 SUP678
+108    USB001 SUP901
+
+6 rows selected.
+
+*****************************************************************************************************
+1. Write a query to join the Product,Inventory table.
+
+
+SQL>  SELECT * FROM PRODUCT P,INVENTORY I WHERE P.INVENTORY_ID = I.INVENTORY_ID;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+PRO003 BOAT                  3900 BASS HEADS      HEA001 244    HEA001 SUP678
+PRO006 INVINCI               7000 TASK ALFA       USB002 65     USB002 SUP678
+PRO005 SANDISK               6000 USB3.0          USB001 108    USB001 SUP901
+
+*****************************************************************************************************
+
+2. Write a query to join the payment and inventory table
+
+SQL> SELECT * FROM PRODUCT P CROSS JOIN INVENTORY I WHERE P.INVENTORY_ID = I.INVENTORY_ID;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+PRO003 BOAT                  3900 BASS HEADS      HEA001 244    HEA001 SUP678
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+PRO005 SANDISK               6000 USB3.0          USB001 108    USB001 SUP901
+PRO006 INVINCI               7000 TASK ALFA       USB002 65     USB002 SUP678
+
+*****************************************************************************************************
+
+3.Write a query to join the product and inventory table using their common fields
+
+SQL> SELECT * FROM PRODUCT NATURAL JOIN INVENTORY;
+
+INVENT PRODUC BRAND                 COST PROD_NAME       QUANTI SUPPLI
+------ ------ --------------- ---------- --------------- ------ ------
+HEA001 PRO003 BOAT                  3900 BASS HEADS      244    SUP678
+LAP001 PRO001 DELL                 65000 INSPIRON        113    SUP345
+LAP002 PRO002 DELL                 90000 ALIENWARE       133    SUP345
+USB001 PRO005 SANDISK               6000 USB3.0          108    SUP901
+USB002 PRO006 INVINCI               7000 TASK ALFA       65     SUP678
+
+*****************************************************************************************************
+
+4.Write a query to display details where INVENTORY ID = 'LAP001'
+
+SQL> SELECT * FROM PRODUCT NATURAL JOIN INVENTORY WHERE INVENTORY_ID = 'LAP001';
+
+INVENT PRODUC BRAND                 COST PROD_NAME       QUANTI SUPPLI
+------ ------ --------------- ---------- --------------- ------ ------
+LAP001 PRO001 DELL                 65000 INSPIRON        113    SUP345
+
+*****************************************************************************************************
+
+5.Write a query to merge product and inventory tables
+
+SQL> SELECT * FROM PRODUCT P INNER JOIN INVENTORY I ON P.INVENTORY_ID = I.INVENTORY_ID;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+PRO003 BOAT                  3900 BASS HEADS      HEA001 244    HEA001 SUP678
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+PRO005 SANDISK               6000 USB3.0          USB001 108    USB001 SUP901
+PRO006 INVINCI               7000 TASK ALFA       USB002 65     USB002 SUP678
+
+*****************************************************************************************************
+
+6.Write a query to merge product and inventory tables without ommiting contents of product table
+
+SQL> SELECT * FROM PRODUCT P LEFT OUTER JOIN INVENTORY I ON
+P.INVENTORY_ID = I.INVENTORY_ID AND P.COST>50000;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+PRO005 SANDISK               6000 USB3.0          USB001
+
+*****************************************************************************************************
+
+7.Write a query to merge product and inventory tables without ommiting contents of inventory table
+
+SQL> SELECT * FROM PRODUCT P RIGHT OUTER JOIN INVENTORY I ON P.INVENTORY_ID = I.INVENTORY_ID AND P.COST>50000;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+                                                         244    HEA001 SUP678
+                                                         55     HEA002 SUP012
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+                                                         108    USB001 SUP901
+                                                         65     USB002 SUP678
+
+*****************************************************************************************************
+
+8.Write a query to merge product and inventory tables without ommiting contents of table
+
+SQL> SELECT * FROM PRODUCT P FULL OUTER JOIN INVENTORY I ON P.INVENTORY_ID = I.INVENTORY_ID AND P.COST>50000;
+
+PRODUC BRAND                 COST PROD_NAME       INVENT QUANTI INVENT SUPPLI
+------ --------------- ---------- --------------- ------ ------ ------ ------
+PRO001 DELL                 65000 INSPIRON        LAP001 113    LAP001 SUP345
+PRO002 DELL                 90000 ALIENWARE       LAP002 133    LAP002 SUP345
+                                                         244    HEA001 SUP678
+                                                         55     HEA002 SUP012
+                                                         65     USB002 SUP678
+                                                         108    USB001 SUP901
+PRO003 BOAT                  3900 BASS HEADS      HEA001
+PRO006 INVINCI               7000 TASK ALFA       USB002
+PRO005 SANDISK               6000 USB3.0          USB001
+
+9 rows selected.
+*****************************************************************************************************
+_____
+SETS
+_____
+
+1.Write a query to display details of laptops with ID as LAP001 & LAP002.
+
+SQL> SELECT * FROM  PRODUCT WHERE INVENTORY_ID = 'LAP002'
+  2  UNION
+  3  SELECT * FROM  PRODUCT WHERE INVENTORY_ID = 'LAP001';
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO002 DELL                 90000 ALIENWARE       LAP002
+PRO001 DELL                 65000 INSPIRON        LAP001
+
+*****************************************************************************************************
+2.Write a query to display inventory id from both product and inventory table.
+
+
+SQL> SELECT INVENTORY_ID FROM PRODUCT
+  2  UNION ALL
+  3  SELECT INVENTORY_ID FROM INVENTORY;
+
+INVENT
+------
+LAP001
+LAP002
+HEA001
+USB001
+USB002
+HEA001
+HEA002
+LAP001
+LAP002
+LAP003
+LAP004
+
+INVENT
+------
+MOU001
+MOU002
+USB001
+USB002
+
+15 rows selected.
+*****************************************************************************************************
+3.Write a query to display Inventory IDs of products which are available in both tables.
+
+SQL> SELECT INVENTORY_ID FROM PRODUCT
+  2  INTERSECT
+  3  SELECT INVENTORY_ID FROM INVENTORY;
+
+INVENT
+------
+LAP001
+LAP002
+HEA001
+USB001
+USB002
+*****************************************************************************************************
+4.Write a query to display Inventory IDs of products which are available in both tables.
+
+SQL> SELECT INVENTORY_ID FROM PRODUCT
+  2  INTERSECT ALL
+  3  SELECT INVENTORY_ID FROM INVENTORY;
+
+INVENT
+------
+LAP001
+LAP002
+HEA001
+USB001
+USB002
+*****************************************************************************************************
+5.Write a query to display details of USB with ID as USB001.
+
+SQL> SELECT * FROM PRODUCT WHERE INVENTORY_ID = 'USB001'
+  2  INTERSECT
+  3  SELECT * FROM PRODUCT WHERE INVENTORY_ID = 'USB001';
+
+PRODUC BRAND                 COST PROD_NAME       INVENT
+------ --------------- ---------- --------------- ------
+PRO005 SANDISK               6000 USB3.0          USB001
+*****************************************************************************************************
+6.Write a query to display ID of products which are not available in product table.
+
+SQL> SELECT INVENTORY_ID FROM INVENTORY
+  2  EXCEPT
+  3  SELECT INVENTORY_ID FROM PRODUCT
+  4  ;
+
+INVENT
+------
+HEA002
+LAP003
+LAP004
+MOU001
+MOU002
+*****************************************************************************************************
+7.Write a query to display ID of products which are not available in product table.
+
+SQL> SELECT INVENTORY_ID FROM INVENTORY
+  2  EXCEPT ALL
+  3  SELECT INVENTORY_ID FROM PRODUCT;
+
+INVENT
+------
+HEA002
+LAP003
+LAP004
+MOU001
+MOU002
+*****************************************************************************************************
